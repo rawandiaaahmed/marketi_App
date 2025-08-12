@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/constants/validator.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
-import 'package:flutter_application_1/feature/auth/view/screens/forget_password.dart';
 
-import 'package:flutter_application_1/feature/auth/view/screens/sign_up_screen.dart';
-import 'package:flutter_application_1/feature/auth/view/widgets/custom_button.dart';
-import 'package:flutter_application_1/feature/auth/view/widgets/custom_shere_widget.dart';
+import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_button.dart';
+import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_shere_widget.dart';
 
-import 'package:flutter_application_1/feature/auth/view/widgets/custom_text_field.dart';
+import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
- final TextEditingController password = TextEditingController();
+  final TextEditingController password = TextEditingController();
   bool rememberMe = false;
   bool obscurePassword = true;
   @override
@@ -45,7 +45,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 padding: EdgeInsets.only(top: 30.h, right: 9),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: Image.asset(AssetManager.skip),
+                  child: InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Image.asset(AssetManager.skip),
+                  ),
                 ),
               ),
               SizedBox(height: 26.h),
@@ -106,12 +111,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>  ForgotPassword(),
-                          ),
-                        );
+                      context.pushName(StringRoute.forget);
                     },
                     child: Text(
                       "Forgot Password?",
@@ -128,9 +128,11 @@ class _SignInScreenState extends State<SignInScreen> {
               SizedBox(
                 width: double.infinity,
                 height: 50.h,
-                child: CustomButton(text: 'Log In',formKey: formKey,onValid: () {
-                  
-                },),
+                child: CustomButton(
+                  text: 'Log In',
+                  formKey: formKey,
+                  onValid: () {},
+                ),
               ),
               SizedBox(height: 20.h),
 
@@ -152,12 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     SizedBox(width: 3),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpScreen(),
-                          ),
-                        );
+                        context.pushName(StringRoute.signUp);
                       },
                       child: Text(
                         "register?",
