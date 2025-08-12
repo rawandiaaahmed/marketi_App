@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/constants/validator.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/auth/view/screens/verification_email_screen.dart';
 
-import 'package:flutter_application_1/feature/auth/view/widgets/custom_buttom_forget.dart';
-import 'package:flutter_application_1/feature/auth/view/widgets/custom_text_field.dart';
+
+import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_buttom_forget.dart';
+import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForgotPasswordEmailScreen extends StatelessWidget {
@@ -17,6 +19,18 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
+      appBar: AppBar(
+        leading: Padding(
+          padding:  EdgeInsets.only(left: 10.h),
+          child: InkWell(
+            onTap: () {
+              context.pop();
+            },
+            child: Image.asset(AssetManager.back),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -31,7 +45,10 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
                     SizedBox(height: 30.h),
                     Image.asset(AssetManager.forget4, height: 200.h),
                     SizedBox(height: 20.h),
-                   Image.asset(AssetManager.forget1),
+                  Padding(
+                  padding:  EdgeInsets.only(right: 26.h,left: 48),
+                  child: Text("Please enter your email address to receive a verification code",style: AppStyles.congrate2Lines2Style,),
+                ),
                     SizedBox(height: 20.h),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -47,12 +64,7 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
               ),
                     SizedBox(height: 20.h),
                     CustomButtomForget(text: 'Send Code',formKey: formKey,onValid: () {
-                     Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const VerificationemailScreen(),
-                          ),
-                        );
+                       context.pushName(StringRoute.verfication2);
                   },),
                   ],
                 ),

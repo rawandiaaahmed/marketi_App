@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/auth/view/screens/create_new_password.dart';
+
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
 
-class VerificationCodeScreen extends StatefulWidget {
-  const VerificationCodeScreen({super.key});
+class VerificationemailScreen extends StatefulWidget {
+  const VerificationemailScreen({super.key});
 
   @override
-  State<VerificationCodeScreen> createState() => _VerificationCodeScreenState();
+  State<VerificationemailScreen> createState() => _VerificationemailScreenState();
 }
 
-class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
+class _VerificationemailScreenState extends State<VerificationemailScreen> {
   final TextEditingController pinController = TextEditingController();
   int seconds = 46;
 
@@ -47,8 +50,20 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
     );
 
     return Scaffold(
+      appBar: AppBar(
+        leading: Padding(
+          padding:  EdgeInsets.only(left: 10.h),
+          child: InkWell(
+            onTap: () {
+              context.pop();
+            },
+            child: Image.asset(AssetManager.back),
+          ),
+        ),
+      ),
+    
       body: SafeArea(
-
+        
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16.w),
@@ -56,11 +71,15 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               padding:  EdgeInsets.only(top: 70.h),
               child: Column(
                 children: [
+               
                   
                   SizedBox(height: 30.h),
-                  Image.asset(AssetManager.forget5, height: 200.h),
+                  Image.asset(AssetManager.verificationemail, height: 200.h),
                   SizedBox(height: 20.h),
-                  Image.asset(AssetManager.forget6),
+                 Padding(
+                     padding: EdgeInsets.only(left: 64.h,right: 42.h),
+                     child: Text("Please enter the 4 digit code sent to: You@gmail.com",style: AppStyles.congrate2Lines2Style,),
+                   ),
                   SizedBox(height: 20.h),
                   Pinput(
                     controller: pinController,
@@ -72,14 +91,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                   ),
                   SizedBox(height: 20.h),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CreateNewPassword(),
-                          ),
-                        );
-                    },
+                    onPressed: () {    context.pushName(StringRoute.createnewPassword);},
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 50.h),
                       backgroundColor: AppColors.darkblue100,
@@ -103,7 +115,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                             });
                           }
                         : null,
-                    child:  Image.asset(AssetManager.resentcode),
+                    child:  Text('Resend Code',style: AppStyles.resetLines2Style,),
                   ),
                 ],
               ),

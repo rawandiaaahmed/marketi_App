@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
-import 'package:flutter_application_1/core/theme/app_colors.dart';
-import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/auth/view/screens/forgot_password_email_screen.dart';
-import 'package:flutter_application_1/feature/auth/view/screens/verification_code_screen.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 
-import 'package:flutter_application_1/feature/auth/view/widgets/custom_buttom_forget.dart';
+import 'package:flutter_application_1/core/theme/app_style.dart';
+
+
+import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_buttom_forget.dart';
 
 import 'package:flutter_intl_phone_field/flutter_intl_phone_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable
-class ForgotPassword extends StatelessWidget {
-  ForgotPassword({super.key});
+class ForgotPasswordScreen extends StatelessWidget {
+  ForgotPasswordScreen({super.key});
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? phoneNumber;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Padding(
+          padding:  EdgeInsets.only(left: 10.h),
+          child: InkWell(
+            onTap: () {
+              context.pop();
+            },
+            child: Image.asset(AssetManager.back),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -32,7 +44,10 @@ class ForgotPassword extends StatelessWidget {
                     SizedBox(height: 30.h),
                     Image.asset(AssetManager.forget3, height: 200.h),
                     SizedBox(height: 20.h),
-                    Image.asset(AssetManager.forget2),
+                    Padding(
+                  padding:  EdgeInsets.only(right: 26.h,left: 48),
+                  child: Text("Please enter your phone number to receive a verification code",style: AppStyles.congrate2Lines2Style,),
+                ),
                     SizedBox(height: 20.h),
                     Align(
                       alignment: Alignment.bottomLeft,
@@ -62,26 +77,16 @@ class ForgotPassword extends StatelessWidget {
                     CustomButtomForget(
                       text: 'Send Code',
                       formKey: formKey,
-                      onValid: () { Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VerificationCodeScreen(),
-                          ),
-                        );},
+                      onValid: () {    context.pushName(StringRoute.verfication);},
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 7.h),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgotPasswordEmailScreen(),
-                          ),
-                        );
+                         context.pushName(StringRoute.forget2);
                       },
                       child: Text(
                         "Try Another Way",
-                        style: TextStyle(color: AppColors.primaryColor),
+                        style: AppStyles.try2Lines2Style,
                       ),
                     ),
                   ],

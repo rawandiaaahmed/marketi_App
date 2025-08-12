@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/auth/view/screens/sign_in_screen.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -87,12 +89,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                   ),
                   onPressed: () {
                     if (isLastPage) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInScreen(),
-                        ),
-                      );
+                         context.pushName(StringRoute.signin);
                     } else {
                       _controller.nextPage(
                         duration: const Duration(milliseconds: 500),

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 
-import 'package:flutter_application_1/feature/onboarding/view/screens/onboarding_screen.dart';
+
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,10 +21,7 @@ class _SplashTimeState extends State<SplashTime> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-      );
+      context.pushName(StringRoute.onBoarding);
     });
   }
 
