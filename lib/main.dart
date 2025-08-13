@@ -1,14 +1,26 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/helper/cache_helper.dart';
+import 'package:flutter_application_1/core/network/dio_consumer.dart';
+import 'package:flutter_application_1/feature/auth/data/repo/user_repository.dart';
+import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart' show UserCubit;
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   CacheHelper().init();
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) =>
+          UserCubit(UserRepository(api: DioConsumer(dio: Dio()))),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
