@@ -1,9 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/constants/validator.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
@@ -12,9 +8,12 @@ import 'package:flutter_application_1/core/theme/app_style.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_text_field.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/state_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CreateNewPassword extends StatefulWidget {
-  const CreateNewPassword({Key? key}) : super(key: key);
+  final String email;
+  const CreateNewPassword({Key? key, required this.email}) : super(key: key);
 
   @override
   State<CreateNewPassword> createState() => _CreateNewPasswordState();
@@ -23,6 +22,18 @@ class CreateNewPassword extends StatefulWidget {
 class _CreateNewPasswordState extends State<CreateNewPassword> {
   bool obscurePassword = true;
 
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +41,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
         leading: Padding(
           padding: EdgeInsets.only(left: 10.h),
           child: InkWell(
-            onTap: () {
-              context.pop();
-            },
+            onTap: () => context.pop(),
             child: Image.asset(AssetManager.back),
           ),
         ),
@@ -42,7 +51,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
           child: Padding(
             padding: EdgeInsets.all(16.w),
             child: Form(
-              key: context.read<UserCubit>().newpasswordFormKey,
+              key: formKey,
               child: Padding(
                 padding: EdgeInsets.only(top: 70.h),
                 child: Column(
@@ -70,7 +79,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                     CustomTextField(
                       prefixIcon: Image.asset(AssetManager.pasword),
                       hintText: "Enter Your Password",
-                      controller: context.read<UserCubit>().newpassword,
+                      controller: passwordController,
                       isPassword: obscurePassword,
                       suffixIcon: GestureDetector(
                         onTap: () {
@@ -100,8 +109,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                     SizedBox(height: 4.h),
                     CustomTextField(
                       prefixIcon: Image.asset(AssetManager.pasword),
-                      hintText: "Enter Your Password",
-                      controller: context.read<UserCubit>().newpasswordConfirm,
+                      hintText: "Confirm Your Password",
+                      controller: confirmPasswordController,
                       isPassword: obscurePassword,
                       suffixIcon: GestureDetector(
                         onTap: () {
@@ -121,25 +130,32 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                     ),
                     SizedBox(height: 10.h),
 
-                    
                     BlocConsumer<UserCubit, UserState>(
                       listener: (context, state) {
                         if (state is NewPasswordSuccess) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.message)));
-                              context.pushName(StringRoute.congrate);
+                            SnackBar(content: Text(state.message)),
+                          );
+                          context.pushName(StringRoute.congrate);
                         } else if (state is NewPasswordFailure) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.errMessage)));
+                            SnackBar(content: Text(state.errMessage)),
+                          );
                         }
                       },
                       builder: (context, state) {
                         if (state is NewPasswordLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         }
                         return ElevatedButton(
                           onPressed: () {
-                            context.read<UserCubit>().newsPassword();
+                           context.read<UserCubit>().newPassword(
+                              email: widget.email,
+                              password: passwordController.text,
+                              confirmPassword: confirmPasswordController.text,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(double.infinity, 50.h),

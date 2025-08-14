@@ -32,12 +32,12 @@ class AppRoutes {
         );
          case StringRoute.signin:
         return BaseRoute(
-          page: const SignInScreen(),
+          page:  SignInScreen(),
           transitionType: RouteTransitionType.fade,
         );
          case StringRoute.signUp:
         return BaseRoute(
-          page: const SignUpScreen(),
+          page:  SignUpScreen(),
           transitionType: RouteTransitionType.fade,
         );
          case StringRoute.forget:
@@ -52,24 +52,44 @@ class AppRoutes {
         );
          case StringRoute.verfication:
         return BaseRoute(
-          page: const VerificationCodeScreen(),
+          page:  VerificationCodeScreen(),
           transitionType: RouteTransitionType.fade,
         );
-         case StringRoute.verfication2:
-        return BaseRoute(
-          page: const VerificationemailScreen(),
-          transitionType: RouteTransitionType.fade,
-        );
+        case StringRoute.verfication2:
+  final args = settings.arguments;
+  if (args != null && args is String) {
+    return BaseRoute(
+      page: VerificationemailScreen(email: args),
+      transitionType: RouteTransitionType.fade,
+    );
+  } else {
+    return BaseRoute(
+      page: const Scaffold(
+        body: Center(child: Text('Email not provided!')),
+      ),
+      transitionType: RouteTransitionType.fade,
+    );
+  }
          case StringRoute.congrate:
         return BaseRoute(
-          page: const CongrateScreen(),
+          page:  CongrateScreen(),
           transitionType: RouteTransitionType.fade,
         );
-         case StringRoute.createnewPassword:
-        return BaseRoute(
-          page: const CreateNewPassword(),
-          transitionType: RouteTransitionType.fade,
-        );
+       case StringRoute.createnewPassword:
+  final args = settings.arguments;
+  if (args != null && args is String) {
+    return BaseRoute(
+      page: CreateNewPassword(email: args),
+      transitionType: RouteTransitionType.fade,
+    );
+  } else {
+    return BaseRoute(
+      page: const Scaffold(
+        body: Center(child: Text('Email not provided!')),
+      ),
+      transitionType: RouteTransitionType.fade,
+    );
+  }
 
       
       default:

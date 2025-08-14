@@ -1,68 +1,36 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_application_1/feature/auth/data/model/login_model.dart';
 import 'package:flutter_application_1/feature/auth/data/repo/auth_repository.dart';
-
-import 'state_cubit.dart';
+import 'package:flutter_application_1/feature/auth/presentation/view_model/state_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserCubit extends Cubit<UserState> {
   UserCubit(this.userRepository) : super(UserInitial());
   final AuthRepository userRepository;
-  //Sign in Form key
-  GlobalKey<FormState> signInFormKey = GlobalKey();
-  //Sign in email
-  TextEditingController signInEmail = TextEditingController();
-  //Sign in password
-  TextEditingController signInPassword = TextEditingController();
-  //Sign Up Form key
-  GlobalKey<FormState> signUpFormKey = GlobalKey();
-
-  //Sign up name
-  TextEditingController signUpName = TextEditingController();
-  //  TextEditingController userName = TextEditingController();
-  //Sign up phone number
-  TextEditingController signUpPhoneNumber = TextEditingController();
-  //Sign up email
-  TextEditingController signUpEmail = TextEditingController();
-  //Sign up password
-  TextEditingController signUpPassword = TextEditingController();
-  //Sign up confirm password
-  TextEditingController confirmPassword = TextEditingController();
-
-  TextEditingController resentEmail = TextEditingController();
-  GlobalKey<FormState> resentFormKey = GlobalKey();
-
-
-  TextEditingController verificationEmail = TextEditingController();
-  TextEditingController code = TextEditingController();
-  GlobalKey<FormState> verificationFormKey = GlobalKey();
-
-  TextEditingController newpasswordEmail = TextEditingController();
-  TextEditingController newpassword = TextEditingController();
-  TextEditingController newpasswordConfirm = TextEditingController();
-  GlobalKey<FormState> newpasswordFormKey = GlobalKey();
   LoginModel? user;
 
-  signIn() async {
+  Future<void> signIn({required String email, required String password}) async {
     emit(SignInLoading());
-    final response = await userRepository.signIn(
-      email: signInEmail.text,
-      password: signInPassword.text,
-    );
+    final response = await userRepository.signIn(email: email, password: password);
     response.fold(
       (errMessage) => emit(SignInFailure(errMessage: errMessage)),
       (signInModel) => emit(SignInSuccess()),
     );
   }
 
-  signUp() async {
+  Future<void> signUp({
+    required String name,
+    required String phone,
+    required String email,
+    required String password,
+    required String confirmPassword,
+  }) async {
     emit(SignUpLoading());
     final response = await userRepository.signUp(
-      name: signUpName.text,
-      phone: signUpPhoneNumber.text,
-      email: signUpEmail.text,
-      password: signUpPassword.text,
-      confirmPassword: confirmPassword.text,
+      name: name,
+      phone: phone,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
     );
     response.fold(
       (errMessage) => emit(SignUpFailure(errMessage: errMessage)),
@@ -70,42 +38,34 @@ class UserCubit extends Cubit<UserState> {
     );
   }
 
-  resent() async {
+  Future<void> resent({required String email}) async {
     emit(ResentLoading());
-    final response = await userRepository.resentEmail(email: resentEmail.text);
-   
+    final response = await userRepository.resentEmail(email: email);
     response.fold(
       (errMessage) => emit(ResentFailure(errMessage: errMessage)),
       (resentModel) => emit(ResentSuccess(message: resentModel.message)),
     );
   }
-  verification() async {
+
+  Future<void> verification({required String email, required String code}) async {
     emit(VerificationLoading());
-    final response = await userRepository.verification(
-      email: resentEmail.text,
-      code: code.text,
-    );
-  
+    final response = await userRepository.verification(email: email, code: code);
     response.fold(
       (errMessage) => emit(VerificationFailure(errMessage: errMessage)),
       (verificationModel) => emit(VerificationSuccess(message: verificationModel.message)),
     );
   }
-   newsPassword() async {
+
+  Future<void> newPassword({required String email, required String password, required String confirmPassword}) async {
     emit(NewPasswordLoading());
     final response = await userRepository.newpassword(
-      email: resentEmail.text,
-      password: newpassword.text,
-      confirmPassword: newpasswordConfirm.text,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
     );
-    
     response.fold(
       (errMessage) => emit(NewPasswordFailure(errMessage: errMessage)),
       (newPasswordModel) => emit(NewPasswordSuccess(message: newPasswordModel.message)),
     );
   }
-
-   
-  
-
 }

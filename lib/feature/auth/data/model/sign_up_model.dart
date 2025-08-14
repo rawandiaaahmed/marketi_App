@@ -1,7 +1,5 @@
 
-
-
-class SignUpModel {
+ class SignUpModel {
   final String message;
 
   SignUpModel({required this.message});

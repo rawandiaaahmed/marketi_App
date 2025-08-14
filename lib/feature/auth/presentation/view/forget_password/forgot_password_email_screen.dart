@@ -11,8 +11,22 @@ import 'package:flutter_application_1/feature/auth/presentation/view_model/state
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ForgotPasswordEmailScreen extends StatelessWidget {
-  ForgotPasswordEmailScreen({super.key});
+class ForgotPasswordEmailScreen extends StatefulWidget {
+  const ForgotPasswordEmailScreen({super.key});
+
+  @override
+  State<ForgotPasswordEmailScreen> createState() => _ForgotPasswordEmailScreenState();
+}
+
+class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +46,7 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(16.w),
           child: Form(
-            key: context.read<UserCubit>().resentFormKey,
+            key: formKey,
             child: Padding(
               padding: EdgeInsets.only(top: 70.h),
               child: Column(
@@ -58,22 +72,28 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
                   SizedBox(height: 2.h),
                   CustomTextField(
                     prefixIcon: Image.asset(AssetManager.email),
-                    controller: context.read<UserCubit>().resentEmail,
+                    controller: emailController,
                     hintText: "you@gmail.com",
                     validator: Validators.validateEmail,
                   ),
                   SizedBox(height: 20.h),
 
-                  // BlocConsumer حوالين زرار Send Code فقط
                   BlocConsumer<UserCubit, UserState>(
                     listener: (context, state) {
                       if (state is ResentSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(state.message)));
-                        context.pushName(StringRoute.verfication2);
+                          SnackBar(content: Text(state.message))
+                        );
+
+                      
+                        context.pushName(
+                          StringRoute.verfication2,
+                          arguments: emailController.text.trim(),
+                        );
                       } else if (state is ResentFailure) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(state.errMessage)));
+                          SnackBar(content: Text(state.errMessage))
+                        );
                       }
                     },
                     builder: (context, state) {
@@ -82,7 +102,7 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
                       }
                       return ElevatedButton(
                         onPressed: () {
-                          context.read<UserCubit>().resent();
+                          context.read<UserCubit>().resent(email: emailController.text);
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(double.infinity, 50.h),

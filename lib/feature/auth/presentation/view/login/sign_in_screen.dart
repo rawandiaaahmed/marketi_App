@@ -22,6 +22,16 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   bool rememberMe = false;
   bool obscurePassword = true;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 50.h),
         child: Form(
-          key: context.read<UserCubit>().signInFormKey,
+          key: _formKey,
           child: Column(
             children: [
               Padding(
@@ -51,7 +61,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
               CustomTextField(
                 prefixIcon: Image.asset(AssetManager.email),
-                controller: context.read<UserCubit>().signInEmail,
+                controller: emailController,
                 hintText: "Username or Email",
                 validator: Validators.validateEmail,
               ),
@@ -60,7 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
               CustomTextField(
                 prefixIcon: Image.asset(AssetManager.pasword),
                 hintText: "Enter Your Password",
-                controller: context.read<UserCubit>().signInPassword,
+                controller: passwordController,
                 isPassword: obscurePassword,
                 suffixIcon: GestureDetector(
                   onTap: () {
@@ -117,7 +127,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               SizedBox(height: 20.h),
 
-              // BlocConsumer حوالين الزرار فقط
+              
               SizedBox(
                 width: double.infinity,
                 height: 50.h,
@@ -137,9 +147,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     }
                     return CustomButton(
                       text: 'Log In',
-                      formKey: context.read<UserCubit>().signInFormKey,
+                      formKey: _formKey,
                       onValid: () {
-                        context.read<UserCubit>().signIn();
+                        context.read<UserCubit>().signIn(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
                       },
                     );
                   },

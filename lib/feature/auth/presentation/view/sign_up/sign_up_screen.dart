@@ -21,6 +21,21 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   bool rememberMe = false;
   bool obscurePassword = true;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    nameController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 16.h, right: 16.h),
-        key: context.read<UserCubit>().signUpFormKey,
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
             CustomTextField(
               prefixIcon: Image.asset(AssetManager.name),
-              controller: context.read<UserCubit>().signUpName,
+              controller: nameController,
               hintText: "Full Name",
               validator: Validators.validateName,
             ),
@@ -68,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(height: 2.h),
             CustomTextField(
               prefixIcon: Image.asset(AssetManager.phone),
-              controller: context.read<UserCubit>().signUpPhoneNumber,
+              controller: phoneController,
               hintText: "Phone Number",
               validator: Validators.validatePhone,
             ),
@@ -77,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(height: 2.h),
             CustomTextField(
               prefixIcon: Image.asset(AssetManager.email),
-              controller: context.read<UserCubit>().signUpEmail,
+              controller: emailController,
               hintText: "Username or Email",
               validator: Validators.validateEmail,
             ),
@@ -88,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             CustomTextField(
               prefixIcon: Image.asset(AssetManager.pasword),
               hintText: "Enter Your Password",
-              controller: context.read<UserCubit>().signUpPassword,
+              controller: passwordController,
               isPassword: obscurePassword,
               suffixIcon: GestureDetector(
                 onTap: () {
@@ -111,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             CustomTextField(
               prefixIcon: Image.asset(AssetManager.pasword),
               hintText: "Enter Your Password",
-              controller: context.read<UserCubit>().confirmPassword,
+              controller: confirmPasswordController,
               isPassword: obscurePassword,
               suffixIcon: GestureDetector(
                 onTap: () {
@@ -156,7 +171,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     onPressed: () {
-                      context.read<UserCubit>().signUp();
+                      context.read<UserCubit>().signUp(
+                        name: nameController.text,
+                        phone: phoneController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        confirmPassword: confirmPasswordController.text,
+                      );
                     },
                     child: Text("Sign Up",
                         style: AppStyles.primaryHeadLinesStyle),
