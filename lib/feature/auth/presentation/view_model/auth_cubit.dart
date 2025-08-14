@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/feature/auth/data/model/login_model.dart';
-import 'package:flutter_application_1/feature/auth/data/repo/user_repository.dart';
+import 'package:flutter_application_1/feature/auth/data/repo/auth_repository.dart';
 
 import 'state_cubit.dart';
 
 class UserCubit extends Cubit<UserState> {
   UserCubit(this.userRepository) : super(UserInitial());
-  final UserRepository userRepository;
+  final AuthRepository userRepository;
   //Sign in Form key
   GlobalKey<FormState> signInFormKey = GlobalKey();
   //Sign in email
@@ -73,7 +73,7 @@ class UserCubit extends Cubit<UserState> {
   resent() async {
     emit(ResentLoading());
     final response = await userRepository.resentEmail(email: resentEmail.text);
-    print(response);
+   
     response.fold(
       (errMessage) => emit(ResentFailure(errMessage: errMessage)),
       (resentModel) => emit(ResentSuccess(message: resentModel.message)),
@@ -85,7 +85,7 @@ class UserCubit extends Cubit<UserState> {
       email: resentEmail.text,
       code: code.text,
     );
-    print(response);
+  
     response.fold(
       (errMessage) => emit(VerificationFailure(errMessage: errMessage)),
       (verificationModel) => emit(VerificationSuccess(message: verificationModel.message)),
@@ -94,11 +94,11 @@ class UserCubit extends Cubit<UserState> {
    newsPassword() async {
     emit(NewPasswordLoading());
     final response = await userRepository.newpassword(
-      email: newpasswordEmail.text,
+      email: resentEmail.text,
       password: newpassword.text,
       confirmPassword: newpasswordConfirm.text,
     );
-    print(response);
+    
     response.fold(
       (errMessage) => emit(NewPasswordFailure(errMessage: errMessage)),
       (newPasswordModel) => emit(NewPasswordSuccess(message: newPasswordModel.message)),

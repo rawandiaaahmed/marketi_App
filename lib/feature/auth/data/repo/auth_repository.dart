@@ -10,10 +10,10 @@ import 'package:flutter_application_1/feature/auth/data/model/resent_Model.dart'
 import 'package:flutter_application_1/feature/auth/data/model/sign_up_model.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-class UserRepository {
+class AuthRepository {
   final ApiConsumer api;
 
-  UserRepository({required this.api});
+  AuthRepository({required this.api});
   Future<Either<String, LoginModel>> signIn({
     required String email,
     required String password,
@@ -109,7 +109,7 @@ class UserRepository {
           ApiKey.confirmPassword: confirmPassword,
         },
       );
-      final newPasswordModel = NewPasswordModel.fromJson(response.data);
+      final newPasswordModel = NewPasswordModel.fromJson(response);
       return Right(newPasswordModel);
     } on ServerException catch (e) {
       return Left(e.errModel.message);
