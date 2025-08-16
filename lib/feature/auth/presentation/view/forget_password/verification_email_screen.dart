@@ -56,12 +56,12 @@ class _VerificationemailScreenState extends State<VerificationemailScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 10.h),
           child: InkWell(
-            onTap: () {
-              context.pop();
-            },
+            onTap: () => context.pop(),
             child: Image.asset(AssetManager.back),
           ),
         ),

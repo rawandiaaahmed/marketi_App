@@ -38,6 +38,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 10.h),
           child: InkWell(

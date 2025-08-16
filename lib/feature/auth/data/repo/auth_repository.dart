@@ -4,24 +4,29 @@ import 'package:flutter_application_1/core/helper/cache_helper.dart';
 import 'package:flutter_application_1/core/network/api_consumer.dart';
 import 'package:flutter_application_1/core/network/end_ponits.dart';
 import 'package:flutter_application_1/feature/auth/data/model/active_resent_model.dart';
+import 'package:flutter_application_1/feature/auth/data/model/active_resent_request_model.dart';
 import 'package:flutter_application_1/feature/auth/data/model/login_model.dart';
+import 'package:flutter_application_1/feature/auth/data/model/login_request_model.dart';
 import 'package:flutter_application_1/feature/auth/data/model/new_password_model.dart';
+import 'package:flutter_application_1/feature/auth/data/model/new_password_requst_model.dart';
 import 'package:flutter_application_1/feature/auth/data/model/resent_Model.dart';
+import 'package:flutter_application_1/feature/auth/data/model/resent_reqest_Model.dart';
 import 'package:flutter_application_1/feature/auth/data/model/sign_up_model.dart';
+import 'package:flutter_application_1/feature/auth/data/model/sign_up_reques_modelt.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthRepository {
   final ApiConsumer api;
 
   AuthRepository({required this.api});
-  Future<Either<String, LoginModel>> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<Either<String, LoginModel>> signIn(
+    LoginRequestModel requst
+   
+  ) async {
     try {
       final response = await api.post(
         EndPoint.signIn,
-        data: {ApiKey.email: email, ApiKey.password: password},
+        data: requst.toJson(),
       );
       final user = LoginModel.fromJson(response);
       final decodedToken = JwtDecoder.decode(user.token);
@@ -33,24 +38,14 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, SignUpModel>> signUp({
-    required String name,
-    required String phone,
-    required String email,
-    required String password,
-    required String confirmPassword,
-  }) async {
+  Future<Either<String, SignUpModel>> signUp(
+    SignUpRequestModel request,
+  ) async {
     try {
       final response = await api.post(
         EndPoint.signUp,
 
-        data: {
-          ApiKey.name: name,
-          ApiKey.phone: phone,
-          ApiKey.email: email,
-          ApiKey.password: password,
-          ApiKey.confirmPassword: confirmPassword,
-        },
+        data: request.toJson(),
       );
       final signUPModel = SignUpModel.fromJson(response);
       return Right(signUPModel);
@@ -59,14 +54,14 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, ResentModel>> resentEmail({
-    required String email,
-  }) async {
+  Future<Either<String, ResentModel>> resentEmail(
+    ResentReqestModel request
+  ) async {
     try {
       final response = await api.post(
         EndPoint.resentEmail,
 
-        data: {ApiKey.email: email},
+        data: request.toJson(),
       );
       final resentModel = ResentModel.fromJson(response);
       return Right(resentModel);
@@ -74,17 +69,12 @@ class AuthRepository {
       return Left(e.errModel.message);
     }
   }
-   Future<Either<String, ActiveResentModel>> verification({
-    required String email,
-    required String code,
-  }) async {
+   Future<Either<String, ActiveResentModel>> verification(ActiveResentRequestModel request) async {
     try {
       final response = await api.post(
         EndPoint.verfication,
 
-        data: {ApiKey.email: email,
-                ApiKey.code: code},
-        
+        data: request.toJson(),
       );
       final verficationModel = ActiveResentModel.fromJson(response);
       return Right(verficationModel);
@@ -92,22 +82,12 @@ class AuthRepository {
       return Left(e.errModel.message);
     }
   }
-  Future<Either<String,NewPasswordModel>> newpassword({
-   
-    required String email,
-    required String password,
-    required String confirmPassword,
-  }) async {
+  Future<Either<String,NewPasswordModel>> newpassword(NewPasswordRequestModel request) async {
     try {
       final response = await api.post(
         EndPoint.newpassword,
 
-        data: {
-         
-          ApiKey.email: email,
-          ApiKey.password: password,
-          ApiKey.confirmPassword: confirmPassword,
-        },
+        data: request.toJson(),
       );
       final newPasswordModel = NewPasswordModel.fromJson(response);
       return Right(newPasswordModel);

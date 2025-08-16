@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
+import 'package:flutter_application_1/core/theme/app_colors.dart';
 
 import 'package:flutter_application_1/core/theme/app_style.dart';
 
@@ -21,12 +22,12 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 0,
         leading: Padding(
-          padding:  EdgeInsets.only(left: 10.h),
+          padding: EdgeInsets.only(left: 10.h),
           child: InkWell(
-            onTap: () {
-              context.pop();
-            },
+            onTap: () => context.pop(),
             child: Image.asset(AssetManager.back),
           ),
         ),

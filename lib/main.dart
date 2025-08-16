@@ -4,6 +4,7 @@ import 'package:flutter_application_1/core/Router/route.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/helper/cache_helper.dart';
 import 'package:flutter_application_1/core/network/dio_consumer.dart';
+import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/feature/auth/data/repo/auth_repository.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart' show UserCubit;
 
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-          theme: ThemeData(fontFamily: 'Poppins'),
+          
+          theme: ThemeData(fontFamily: 'Poppins',scaffoldBackgroundColor: AppColors.white),
           debugShowCheckedModeBanner: false,
           initialRoute: StringRoute.splash, 
           onGenerateRoute: AppRoutes.onGenerateRoute, 

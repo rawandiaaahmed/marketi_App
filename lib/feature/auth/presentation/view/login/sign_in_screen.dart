@@ -135,7 +135,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   listener: (context, state) {
                     if (state is SignInSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("success")));
+                          SnackBar(content: Text(state.message)));
+                      context.pushName(StringRoute.bottomBar);
                     } else if (state is SignInFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(state.errMessage)));

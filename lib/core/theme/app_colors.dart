@@ -21,7 +21,7 @@ class AppColors {
   static const darkblue500 = Color(0xFF0041BF);
   static const darkblue700 = Color(0xFF002B7F);
   static const darkblue900 = Color(0xFF001640);
-
+ static const grayscale = Color(0xFF67687E);
   static const darkred100 = Color(0xFFFF3F50);
   static const darkred200 = Color(0xFFFE0017);
   static const darkred500 = Color(0xFFBF0011);

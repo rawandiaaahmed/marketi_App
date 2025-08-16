@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/constants/validator.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
@@ -153,6 +154,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   if (state is SignUpSuccess) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(state.message)));
+                    context.pushName(StringRoute.bottomBar);
                   } else if (state is SignUpFailure) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(state.errMessage)));
