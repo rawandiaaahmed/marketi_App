@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
-import 'package:flutter_application_1/core/theme/app_fonts.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppStyles {
@@ -12,43 +12,75 @@ class AppStyles {
   static TextStyle signupHeadLinesStyle = TextStyle(
     color: AppColors.darkblue900,
     fontSize: 12.sp,
-    fontFamily: AppFonts.mainFontName,
   );
   static TextStyle onboarderHeadLinesStyle = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 20.sp,
     color: AppColors.darkblue900,
-    fontFamily: AppFonts.mainFontName,
   );
-    static TextStyle onboarderLines2Style = TextStyle(
+  static TextStyle namehomeHeadLinesStyle = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 20.sp,
+    color: AppColors.darkblue900,
+  );
+  static TextStyle onboarderLines2Style = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14.sp,
     color: AppColors.darkblue900,
-    fontFamily: AppFonts.mainFontName,
   );
   static TextStyle congrateLines2Style = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 24.sp,
     color: AppColors.darkblue900,
-    fontFamily: AppFonts.mainFontName,
   );
   static TextStyle congrate2Lines2Style = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,
     color: AppColors.mediumGrey,
-    fontFamily: AppFonts.mainFontName,
   );
   static TextStyle try2Lines2Style = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 16.sp,
-   color: AppColors.primaryColor,
-    fontFamily: AppFonts.mainFontName,
+    color: AppColors.primaryColor,
   );
   static TextStyle resetLines2Style = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 16.sp,
-   color: AppColors.mediumGrey,
-    fontFamily: AppFonts.mainFontName,
+    color: AppColors.mediumGrey,
   );
-
+  static TextStyle detailsproductLines2Style = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 12.sp,
+    color: AppColors.darkblue900,
+  );
+    static TextStyle viewLines2Style = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,
+    color: AppColors.lightBlue100,
+  );
+  static TextStyle detailsCategoryLines2Style = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,
+    color: AppColors.darkblue900,
+  );
+  static TextStyle searchLines2Style = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14.sp,
+    color: AppColors.gray2,
+  );
+  static TextStyle detailsLines2Style = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 12.sp,
+    color: AppColors.grayscale,
+  );
+   static TextStyle details2Lines2Style = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 12.sp,
+    color: AppColors.darkblue700,
+  );
+  static TextStyle producLines2Style = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+    color: AppColors.lightBlue100,
+  );
 }

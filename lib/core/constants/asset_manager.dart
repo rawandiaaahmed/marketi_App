@@ -34,6 +34,12 @@ static const forget7 = '$imagePath/Sub_Title (6).png';
 static const forget8 = '$imagePath/Sub_Title (8).png';
 static const forget9 = '$imagePath/Sub_Title (7).png';
 
+static const iphone = '$imagePath/iPhone_11_Pro.png';
+static const homeprofile = '$imagePath/Offer_1.png';
+
+static const homeimage = '$imagePath/Ellipse 1.png';
+
+
   //icons   
   static const email = '$iconPath/evaEmailOutline0.png';    
   static const pasword = '$iconPath/Password_Icon.png';  
@@ -41,7 +47,16 @@ static const forget9 = '$imagePath/Sub_Title (7).png';
     static const phone = '$iconPath/Phone_Icon.png';    
       static const name = '$iconPath/Name_Icon.png';    
         static const user = '$iconPath/User_Icon.png';   
-          static const back = '$iconPath/Back_Icon.png';      
-   
+          static const back = '$iconPath/Back_Icon.png'; 
+           static const cart = '$iconPath/Cart_Icon.png'; 
+            static const menu = '$iconPath/Frame.png'; 
+             static const home = '$iconPath/Home_Icon.png'; 
+              static const favorites = '$iconPath/Vector.png';
+               static const searchFilter = '$iconPath/Filter_Icon.png';  
+                static const rate = '$iconPath/rate.png';   
+               static const search = 'assets/icons/search_Icons.png';   
+                   static const favorite = '$iconPath/favorite.png';  
+                    static const time = '$iconPath/Time_Icon_UIA.png';      
+
 
 }
