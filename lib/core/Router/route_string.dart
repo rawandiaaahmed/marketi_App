@@ -22,6 +22,12 @@ abstract class StringRoute {
   static const String buyAgain = 'buyAgain';
   static const String favorite = 'favorite';
   static const String bestforyou = 'bestforyou';
+  static const String category = 'category';
+    static const String brands = 'brands';
+  static const String cart = 'cart';
+  static const String productDetails = 'productDetails';
+  static const String profile = 'profile';
+
 
 
 }

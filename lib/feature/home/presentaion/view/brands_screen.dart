@@ -1,55 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
-import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/Search_home.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/product_card.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/category_card.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PopularProductScreen extends StatefulWidget {
-  const PopularProductScreen({super.key});
-
-  @override
-  State<PopularProductScreen> createState() => _PopularProductScreenState();
-}
-
-class _PopularProductScreenState extends State<PopularProductScreen> {
-  final List<Map<String, String>> products = [
+class BrandsScreen extends StatelessWidget {
+   BrandsScreen({super.key});
+   final List<Map<String, String>> products = [
     {
       "image": AssetManager.iphone,
-      "name": "Sony Headphone",
-      "price": "3499 LE",
-      "rate": "4.0",
+      "title": "Sony Headphone",
+      
+    },
+    {
+       "image": AssetManager.iphone,
+      "title": "Sony Headphone",
     },
     {
       "image": AssetManager.iphone,
-      "name": "iPhone 14",
-      "price": "22000 LE",
-      "rate": "4.5",
+      "title": "Samsung TV",
+     
     },
     {
       "image": AssetManager.iphone,
-      "name": "Samsung TV",
-      "price": "9999 LE",
-      "rate": "4.3",
-    },
-    {
-      "image": AssetManager.iphone,
-      "name": "Smart Watch",
-      "price": "1999 LE",
-      "rate": "4.2",
+      "title": "Smart Watch",
+      
     },
      {
       "image": AssetManager.iphone,
-      "name": "Smart Watch",
-      "price": "1999 LE",
-      "rate": "4.2",
+      "title": "Smart Watch",
+
     },
      {
       "image": AssetManager.iphone,
-      "name": "Smart Watch",
-      "price": "1999 LE",
-      "rate": "4.2",
+      "title": "Smart Watch",
+     
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+      
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+     
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+      
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+     
     },
   ];
 
@@ -67,10 +84,13 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
               onTap: () => Navigator.pop(context),
               child: Image.asset(AssetManager.back),
             ),
-            SizedBox(width: 50.w),
-            Text("Popular Product", style: AppStyles.namehomeHeadLinesStyle),
+            SizedBox(width: 90.w),
+            Text(AppStrings.brands, style: AppStyles.namehomeHeadLinesStyle),
             const Spacer(),
-            Icon(Icons.shopping_cart, color: AppColors.darkblue100),
+           CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage(AssetManager.homeimage),
+                      ),
           ],
         ),
       ),
@@ -81,7 +101,7 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
           children: [
             SearchHome(onTap: () {}),
             SizedBox(height: 10.h),
-            Text("All products", style: AppStyles.onboarderHeadLinesStyle),
+            Text(AppStrings.brand, style: AppStyles.onboarderHeadLinesStyle),
             SizedBox(height: 10.h),
 
         
@@ -91,17 +111,14 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, 
                   mainAxisSpacing: 10.h, 
-                  crossAxisSpacing: 5.w,
-                  childAspectRatio: 0.9,
+                  crossAxisSpacing: 20.w,
+                  childAspectRatio: 1.4,
                 ),
                 itemBuilder: (context, index) {
                   final product = products[index];
-                  return ProductCard(
+                  return CategoryCard(
                     image: product["image"]!,
-                    price: product["price"]!,
-                    name: product["name"]!,
-                    rate: product["rate"]!,
-                    onTap: () {},
+                    title: product["title"]!,
                   );
                 },
               ),

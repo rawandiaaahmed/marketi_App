@@ -38,6 +38,13 @@ static const iphone = '$imagePath/iPhone_11_Pro.png';
 static const homeprofile = '$imagePath/Offer_1.png';
 
 static const homeimage = '$imagePath/Ellipse 1.png';
+static const chekout = '$imagePath/Illustration_Success_Order.png';
+
+static const chekout2 = '$imagePath/Illustration_Log_In_Validation.png';
+static const cartimage = '$imagePath/Illustration_Cart_Empty.png';
+
+
+
 
 
   //icons   
@@ -58,5 +65,11 @@ static const homeimage = '$imagePath/Ellipse 1.png';
                    static const favorite = '$iconPath/favorite.png';  
                     static const time = '$iconPath/Time_Icon_UIA.png';      
 
-
+ static const ratep = '$iconPath/Rate_Icon.png';  
+                static const logout = '$iconPath/Log_Out_Icon.png';   
+               static const feedback = '$iconPath/Feedback_Icon.png';   
+                   static const vendor = '$iconPath/Vector (2).png';  
+                    static const mode = '$iconPath/Dark_Mode_Icon.png'; 
+                    static const vendor3 = '$iconPath/Vector (3).png';  
+                    static const user1 = '$iconPath/User_Icon (1).png'; 
 }

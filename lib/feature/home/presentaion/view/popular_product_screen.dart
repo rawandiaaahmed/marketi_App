@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
-import 'package:flutter_application_1/core/theme/app_colors.dart';
+
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/Search_home.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/product_card.dart';
+
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/product_card.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BuyAgainScreen extends StatelessWidget {
-  BuyAgainScreen({super.key});
-   final List<Map<String, String>> products = [
+class PopularProductScreen extends StatefulWidget {
+  const PopularProductScreen({super.key});
+
+  @override
+  State<PopularProductScreen> createState() => _PopularProductScreenState();
+}
+
+class _PopularProductScreenState extends State<PopularProductScreen> {
+  final List<Map<String, String>> products = [
     {
       "image": AssetManager.iphone,
       "name": "Sony Headphone",
@@ -62,9 +69,12 @@ class BuyAgainScreen extends StatelessWidget {
               child: Image.asset(AssetManager.back),
             ),
             SizedBox(width: 50.w),
-            Text("Buy Again", style: AppStyles.namehomeHeadLinesStyle),
+            Text("Popular Product", style: AppStyles.namehomeHeadLinesStyle),
             const Spacer(),
-            Icon(Icons.shopping_cart, color: AppColors.darkblue100),
+           CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage(AssetManager.homeimage),
+                      ),
           ],
         ),
       ),

@@ -5,6 +5,9 @@ class EndPoint {
   static String resentEmail = "auth/resetPassCode";
   static String verfication = "auth/activeResetPass";
   static String newpassword = "auth/resetPassword";
+  static String getProduct() {
+    return "home/products";
+  }
 }
 
 class ApiKey {

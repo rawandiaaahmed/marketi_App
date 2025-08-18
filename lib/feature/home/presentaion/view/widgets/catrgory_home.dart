@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/category_card.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/section_header.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/category_card.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/section_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CatrgoryHome extends StatelessWidget {
@@ -12,7 +14,7 @@ class CatrgoryHome extends StatelessWidget {
     return Column(
       children: [
           SectionHeader(title: "Category",onTap: () {
-           
+           context.pushName(StringRoute.category);
          },),
                   SizedBox(height: 8.h),
                   GridView.count(

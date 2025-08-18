@@ -4,7 +4,8 @@ import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/Search_home.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchScreen extends StatelessWidget {

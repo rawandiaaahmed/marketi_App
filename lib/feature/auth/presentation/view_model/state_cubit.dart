@@ -6,6 +6,7 @@ final class UserInitial extends UserState {}
 
 final class SignInSuccess extends UserState {
   final String message;
+  
 
   SignInSuccess({required this.message});
 }

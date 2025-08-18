@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/favorite_screen.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/home_screen.dart';
-
-
+import 'package:flutter_application_1/core/constants/app_string.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view/cart_screen.dart';
+import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/home_screen.dart';
+import 'package:flutter_application_1/feature/profile/presentation/view/prifile_screen.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -14,15 +14,13 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  int selected = 0; 
+  int selected = 0;
+
   final List<Widget> pages = [
-   HomeScreen(),
-   Container(),
-   FavoriteScreen(),
-   Container()
-   
-  
-    
+    const HomeScreen(),
+    const CartScreen(),
+     FavoriteScreen(),
+     ProfileScreen(),
   ];
 
   void onItemTapped(int index) {
@@ -34,7 +32,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[selected], 
+      body: pages[selected],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selected,
         onTap: onItemTapped,
@@ -45,7 +43,7 @@ class _BottomBarState extends State<BottomBar> {
             icon: Image.asset(AssetManager.home),
             label: AppStrings.home,
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Image.asset(AssetManager.cart),
             label: AppStrings.cart,
           ),
@@ -54,8 +52,8 @@ class _BottomBarState extends State<BottomBar> {
             label: AppStrings.favorites,
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(AssetManager.menu),
-            label: AppStrings.menu,
+            icon: Icon(Icons.person),
+            label: AppStrings.profile,
           ),
         ],
       ),

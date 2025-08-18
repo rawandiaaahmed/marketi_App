@@ -1,7 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
+
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/state_cubit.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
@@ -59,6 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
               Image.asset(AssetManager.splash, height: 232.h, width: 272.w),
               SizedBox(height: 35.h),
 
+              // Email
               CustomTextField(
                 prefixIcon: Image.asset(AssetManager.email),
                 controller: emailController,
@@ -67,6 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               SizedBox(height: 13.h),
 
+              // Password
               CustomTextField(
                 prefixIcon: Image.asset(AssetManager.pasword),
                 hintText: "Enter Your Password",
@@ -89,6 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
               SizedBox(height: 5.h),
 
+              // Remember & Forgot
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -127,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               SizedBox(height: 20.h),
 
-              
+        
               SizedBox(
                 width: double.infinity,
                 height: 50.h,
@@ -136,7 +142,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     if (state is SignInSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(state.message)));
-                      context.pushName(StringRoute.bottomBar);
+                          
+                  
+                      context.read<ProductCubit>().getProduct();
+
+                    
+                      context.pushReplacementNamed(StringRoute.bottomBar);
                     } else if (state is SignInFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(state.errMessage)));
@@ -151,9 +162,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       formKey: _formKey,
                       onValid: () {
                         context.read<UserCubit>().signIn(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
                       },
                     );
                   },
@@ -164,6 +175,7 @@ class _SignInScreenState extends State<SignInScreen> {
               CustomShereWidget(),
               SizedBox(height: 30.h),
 
+              // Register
               GestureDetector(
                 onTap: () {},
                 child: Row(

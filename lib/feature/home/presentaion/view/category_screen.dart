@@ -1,52 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
-import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/Search_home.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home/widgets/product_card.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/category_card.dart';
+
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BestForYouScreen extends StatelessWidget {
-   BestForYouScreen({super.key});
+class CategoryScreen extends StatelessWidget {
+   CategoryScreen({super.key});
   final List<Map<String, String>> products = [
     {
       "image": AssetManager.iphone,
-      "name": "Sony Headphone",
-      "price": "3499 LE",
-      "rate": "4.0",
+      "title": "Sony Headphone",
+      
+    },
+    {
+       "image": AssetManager.iphone,
+      "title": "Sony Headphone",
     },
     {
       "image": AssetManager.iphone,
-      "name": "iPhone 14",
-      "price": "22000 LE",
-      "rate": "4.5",
+      "title": "Samsung TV",
+     
     },
     {
       "image": AssetManager.iphone,
-      "name": "Samsung TV",
-      "price": "9999 LE",
-      "rate": "4.3",
-    },
-    {
-      "image": AssetManager.iphone,
-      "name": "Smart Watch",
-      "price": "1999 LE",
-      "rate": "4.2",
+      "title": "Smart Watch",
+      
     },
      {
       "image": AssetManager.iphone,
-      "name": "Smart Watch",
-      "price": "1999 LE",
-      "rate": "4.2",
+      "title": "Smart Watch",
+
     },
      {
       "image": AssetManager.iphone,
-      "name": "Smart Watch",
-      "price": "1999 LE",
-      "rate": "4.2",
+      "title": "Smart Watch",
+     
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+      
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+     
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+      
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+
+    },
+     {
+      "image": AssetManager.iphone,
+      "title": "Smart Watch",
+     
     },
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,10 +84,13 @@ class BestForYouScreen extends StatelessWidget {
               onTap: () => Navigator.pop(context),
               child: Image.asset(AssetManager.back),
             ),
-            SizedBox(width: 50.w),
-            Text("Best for You", style: AppStyles.namehomeHeadLinesStyle),
+            SizedBox(width: 70.w),
+            Text(AppStrings.category, style: AppStyles.namehomeHeadLinesStyle),
             const Spacer(),
-            Icon(Icons.shopping_cart, color: AppColors.darkblue100),
+           CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage(AssetManager.homeimage),
+                      ),
           ],
         ),
       ),
@@ -75,7 +101,7 @@ class BestForYouScreen extends StatelessWidget {
           children: [
             SearchHome(onTap: () {}),
             SizedBox(height: 10.h),
-            Text("All products", style: AppStyles.onboarderHeadLinesStyle),
+            Text(AppStrings.categories, style: AppStyles.onboarderHeadLinesStyle),
             SizedBox(height: 10.h),
 
         
@@ -85,17 +111,14 @@ class BestForYouScreen extends StatelessWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, 
                   mainAxisSpacing: 10.h, 
-                  crossAxisSpacing: 5.w,
-                  childAspectRatio: 0.9,
+                  crossAxisSpacing: 20.w,
+                  childAspectRatio: 1.4,
                 ),
                 itemBuilder: (context, index) {
                   final product = products[index];
-                  return ProductCard(
+                  return CategoryCard(
                     image: product["image"]!,
-                    price: product["price"]!,
-                    name: product["name"]!,
-                    rate: product["rate"]!,
-                    onTap: () {},
+                    title: product["title"]!,
                   );
                 },
               ),

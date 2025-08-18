@@ -25,4 +25,16 @@ class AppStrings {
      static const String cart = 'Cart';
       static const String menu = 'Menu';
        static const String favorites = 'Favorites';
+  static const String category = 'Categories';
+  static const String categories = 'All Categories';
+  static const String brands = 'Brands';
+   static const String brand = 'All Brands';
+   static const String startShopping = 'Start Shopping';
+  static const String checkout = 'Checkout';
+  static const String cart2 = 'Check our big offers, fresh products and fill your cart with items';
+  static const String cart3 = 'Your Cart is Empty';
+  static const String cart4 = 'Cart';
+  static const String profile = 'Profile';
+   static const String myProfile = 'My Profile';
+
 }
