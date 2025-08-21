@@ -6,9 +6,11 @@ import 'package:flutter_application_1/core/helper/cache_helper.dart';
 import 'package:flutter_application_1/core/network/dio_consumer.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/feature/auth/data/repo/auth_repository.dart';
-import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart' show UserCubit;
+import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart' ;
 import 'package:flutter_application_1/feature/home/data/repo/product_repository.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_cubit.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
+import 'package:flutter_application_1/feature/profile/data/repo/profile_repository.dart';
+import 'package:flutter_application_1/feature/profile/presentation/view_model/cubit/profile_cubit.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view_model/cubit/them_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,8 +30,13 @@ void main() async {
           create: (_) => AuthRepository(api: dioConsumer),
         ),
         RepositoryProvider(
-          create: (_) => ProductRepository(api: dioConsumer),
+          create: (_) => HomeRepository(api: dioConsumer),
         ),
+         RepositoryProvider(
+          create: (_) => ProfileRepository(api: dioConsumer),
+        ),
+        
+        
       ],
       child: MultiBlocProvider(
         providers: [
@@ -39,10 +46,18 @@ void main() async {
             ),
           ),
           BlocProvider(
-            create: (context) => ProductCubit(
-              RepositoryProvider.of<ProductRepository>(context),
+            create: (context) => HomeCubit(
+              RepositoryProvider.of<HomeRepository>(context),
             ),
           ),
+           BlocProvider(
+            create: (context) => ProfileCubit(
+              RepositoryProvider.of<ProfileRepository>(context),
+              
+              
+            ),
+          ),
+          
           BlocProvider(
             create: (context) => ThemeCubit(),
           ),
@@ -78,7 +93,7 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'Poppins',
               ),
               themeMode: themeMode, 
-              initialRoute: StringRoute.profile,
+              initialRoute: StringRoute.splash,
               onGenerateRoute: AppRoutes.onGenerateRoute,
             );
           },

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  const ProductDetailsScreen({Key? key, required this.product})
+    : super(key: key);
+
+  final ProductModel product;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -14,18 +20,9 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   bool isExpanded = false;
 
-  final Map<String, dynamic> product = {
-    "name": "iPhone 15 Pro",
-    "price": "345.00 EGP",
-    "image": AssetManager.iphone,
-    "sizes": ["2", "3", "4"],
-    "description":
-        "Fear no leaks with new and improved Pampers Swaddlers Pampers Swaddlers helps prevent up to 100% of leaks, even blowouts Plus, Dual Leak-Guard Barriers at the legs help protect where leaks happen most With Swaddlers, you can rest assured that you have superior leak protection while keeping baby's skin healthy.",
-  };
-
   @override
   Widget build(BuildContext context) {
-    List<String> sizes = List<String>.from(product["sizes"] ?? ["2", "3", "4"]);
+    final product = widget.product;
 
     return Scaffold(
       appBar: AppBar(
@@ -38,23 +35,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               onTap: () => Navigator.pop(context),
               child: Image.asset(AssetManager.back),
             ),
-            SizedBox(width: 80.w),
-            Text("iphone", style: AppStyles.onboarderHeadLinesStyle),
+            SizedBox(width: 60.w),
+            Text("product Details", style: AppStyles.onboarderHeadLinesStyle),
             const Spacer(),
-            Icon(Icons.shopping_cart, color: AppColors.darkblue100),
+            const Icon(Icons.shopping_cart, color: AppColors.darkblue100),
           ],
         ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Image.asset(
-                product["image"] ?? "assets/images/pampers.png",
+              child: Image.network(
+                product.thumbnail.isNotEmpty
+                    ? product.thumbnail
+                    : "https://via.placeholder.com/200",
                 height: 200.h,
                 width: 200.h,
+                fit: BoxFit.contain,
               ),
             ),
             SizedBox(height: 10.h),
@@ -62,7 +61,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                4,
+                product.images.length,
                 (index) => Container(
                   margin: EdgeInsets.symmetric(horizontal: 6.w),
                   padding: EdgeInsets.all(4.w),
@@ -70,10 +69,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     border: Border.all(color: Colors.blue, width: 2),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: Image.asset(
-                    product["image"] ?? "assets/images/pampers.png",
+                  child: Image.network(
+                    product.images[index],
                     width: 50.w,
                     height: 50.h,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -93,7 +93,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
-                    "Free Shipping",
+                    product.shippingInformation,
                     style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.w600,
@@ -103,10 +103,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.star, color: AppColors.black),
-                    const Icon(Icons.star, color: AppColors.black),
-                    const Icon(Icons.star, color: AppColors.black),
-                    const Icon(Icons.star, color: AppColors.black),
+                    ...List.generate(
+                      product.rating.floor(),
+                      (index) => const Icon(Icons.star, color: AppColors.black),
+                    ),
                     const Icon(
                       Icons.star_border,
                       color: AppColors.black,
@@ -114,7 +114,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                     SizedBox(width: 5.w),
                     Text(
-                      "(4.0)",
+                      "(${product.rating.toStringAsFixed(1)})",
                       style: AppStyles.descriptionHeadLinesStyle.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -125,14 +125,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             SizedBox(height: 12.h),
 
+            // الاسم
             Text(
-              "${product["name"] ?? "345.00 EGP"}",
+              product.title,
               style: AppStyles.namehomeHeadLinesStyle.copyWith(fontSize: 18.sp),
             ),
             SizedBox(height: 8.h),
 
             Text(
-              product["description"] ?? "",
+              product.description,
               maxLines: isExpanded ? null : 2,
               overflow: isExpanded
                   ? TextOverflow.visible
@@ -160,7 +161,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Price\n${product["price"] ?? "345.00 EGP"}",
+                  "Price\n${product.price} EGP",
                   style: AppStyles.namehomeHeadLinesStyle.copyWith(
                     fontSize: 18.sp,
                   ),
@@ -181,13 +182,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     children: [
                       Image.asset(
                         AssetManager.cart,
-                       color: AppColors.lightBlue100,
+                        color: AppColors.lightBlue100,
                       ),
                       SizedBox(width: 8.w),
-                      Text(
-                        "Add to Cart",
-                        style: AppStyles.producLines2Style,
-                      ),
+                      Text("Add to Cart", style: AppStyles.producLines2Style),
                     ],
                   ),
                 ),

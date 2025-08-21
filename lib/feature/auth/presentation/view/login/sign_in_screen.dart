@@ -4,7 +4,7 @@ import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/state_cubit.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_cubit.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
@@ -142,11 +142,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     if (state is SignInSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(state.message)));
-                          
-                  
-                      context.read<ProductCubit>().getProduct();
 
-                    
+                      context.read<HomeCubit>().getProduct();
+
                       context.pushReplacementNamed(StringRoute.bottomBar);
                     } else if (state is SignInFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(

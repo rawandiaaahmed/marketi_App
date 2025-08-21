@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/product_cart_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/section_header.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_cubit.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
@@ -15,7 +15,16 @@ class PopularProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductCubit, ProductState>(
+    return BlocConsumer<HomeCubit, HomeState>(
+      buildWhen: (previous, current) => current is GetProductSuccess || current is GetProductLoading || current is GetProductFailure,
+      listener: (context, state) {
+        if (state is GetProductFailure) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+        }
+      
+      },
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,37 +48,27 @@ class PopularProduct extends StatelessWidget {
                   itemCount: state.product.length,
                   itemBuilder: (context, index) {
                     final product = state.product[index];
-
+//todo
                     return ProductCardHome(
-                      image: product.thumbnail,
-                      name: product.title,
-                      price: product.price.toString(),
-                      rate: product.rating.toString(),
-                      isFavorite: context.read<ProductCubit>().isFavorite(
+                      product: product,
+                      isFavorite: context.read<HomeCubit>().isFavorite(
                         product,
                       ),
-                      onTap: () {},
+                      onTap: () {  context.pushName(
+                                StringRoute.productDetails,
+                                arguments: product,
+                              );},
                       onAddToCart: () {
-                        context.read<ProductCubit>().addToCart(product);
+                        context.read<HomeCubit>().addToCart(product);
                       },
                       onToggleFavorite: () {
-                        context.read<ProductCubit>().toggleFavorite(product);
+                        context.read<HomeCubit>().toggleFavorite(product);
                       },
                     );
                   },
                 ),
               ),
               SizedBox(height: 10.h),
-
-              if (state.hasMore)
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.read<ProductCubit>().getProduct(loadMore: true);
-                    },
-                    child: const Text("Load More"),
-                  ),
-                ),
             ],
 
             if (state is GetProductFailure)

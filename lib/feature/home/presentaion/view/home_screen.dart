@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/banner_home.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/brands_home.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/catrgory_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/popular_product.dart';
 
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/header_home.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_cubit.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,15 +19,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = RepositoryProvider.of<ProductRepository>(context);
+    final repository = RepositoryProvider.of<HomeRepository>(context);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (_) => ProductCubit(repository)..getProduct()),
-     //   BlocProvider(create: (_) => BannerCubit(repository)..getBanners()),
-      //  BlocProvider(create: (_) => CategoryCubit(repository)..getCategories()),
-      //  BlocProvider(create: (_) => BrandCubit(repository)..getBrands()),
+            create: (_) => HomeCubit(repository)..getProduct()..getCategories()..getBrands()),
+    
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -48,20 +49,19 @@ class HomeScreen extends StatelessWidget {
 
                     SizedBox(height: 16.h),
 
-                    // Banner Section
-                    // const BannerHome(),
-                    // SizedBox(height: 20.h),
+                    BannerHome(),
+                   SizedBox(height: 20.h),
 
                     // // Popular Products
-                     PopularProduct(),
+                    PopularProduct(),
                      SizedBox(height: 20.h),
 
                     // // Categories
-                    // const CatrgoryHome(),
-                    // SizedBox(height: 20.h),
+                     const CatrgoryHome(),
+                      SizedBox(height: 20.h),
 
                     // // Brands
-                    // const BrandsHome(),
+                      BrandsHome(),
                   ],
                 ),
               ),

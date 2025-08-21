@@ -1,4 +1,33 @@
-class ProductModel {
+
+
+class ProductResponseByBrands {
+  final List<ProductModelByBrands> list;
+  final int total;
+  final int skip;
+  final int limit;
+
+ ProductResponseByBrands({
+    required this.list,
+    required this.total,
+    required this.skip,
+    required this.limit,
+  });
+
+  factory ProductResponseByBrands.fromJson(Map<String, dynamic> json) {
+    return ProductResponseByBrands(
+      list: List<ProductModelByBrands>.from(
+        json['list'].map((x) =>ProductModelByBrands.fromJson(x)),
+      ),
+      total: json['total'],
+      skip: json['skip'],
+      limit: json['limit'],
+    );
+  }
+
+ 
+}
+
+class ProductModelByBrands {
   final int id;
   final String title;
   final String description;
@@ -22,7 +51,7 @@ class ProductModel {
   final List<String> images;
   final String thumbnail;
 
-  ProductModel({
+ ProductModelByBrands({
     required this.id,
     required this.title,
     required this.description,
@@ -47,8 +76,8 @@ class ProductModel {
     required this.thumbnail,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
+  factory ProductModelByBrands.fromJson(Map<String, dynamic> json) {
+    return ProductModelByBrands(
       id: json['id'],
       title: json['title'],
       description: json['description'],
@@ -58,23 +87,24 @@ class ProductModel {
       rating: (json['rating'] as num).toDouble(),
       stock: json['stock'],
       tags: List<String>.from(json['tags']),
-      brand: json['brand'] ?? '',
-      sku: json['sku'] ?? '',
-      weight: json['weight'] ,
+      brand: json['brand'],
+      sku: json['sku'],
+      weight: json['weight'],
       dimensions: Dimensions.fromJson(json['dimensions']),
-      warrantyInformation: json['warrantyInformation'] ?? '',
-      shippingInformation: json['shippingInformation'] ?? '',
-      availabilityStatus: json['availabilityStatus'] ?? '',
-      reviews: (json['reviews'] as List)
-          .map((e) => Review.fromJson(e))
-          .toList(),
-      returnPolicy: json['returnPolicy'] ?? '',
+      warrantyInformation: json['warrantyInformation'],
+      shippingInformation: json['shippingInformation'],
+      availabilityStatus: json['availabilityStatus'],
+      reviews:
+          List<Review>.from(json['reviews'].map((x) => Review.fromJson(x))),
+      returnPolicy: json['returnPolicy'],
       minimumOrderQuantity: json['minimumOrderQuantity'],
       meta: Meta.fromJson(json['meta']),
       images: List<String>.from(json['images']),
-      thumbnail: json['thumbnail'] ?? '',
+      thumbnail: json['thumbnail'],
     );
   }
+
+
 }
 
 class Dimensions {
@@ -95,12 +125,20 @@ class Dimensions {
       depth: (json['depth'] as num).toDouble(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "width": width,
+      "height": height,
+      "depth": depth,
+    };
+  }
 }
 
 class Review {
-  final double rating;
+  final int rating;
   final String comment;
-  final DateTime date;
+  final String date;
   final String reviewerName;
   final String reviewerEmail;
 
@@ -114,18 +152,28 @@ class Review {
 
   factory Review.fromJson(Map<String, dynamic> json) {
     return Review(
-      rating: (json['rating'] as num).toDouble(),
+      rating: json['rating'],
       comment: json['comment'],
-      date: DateTime.parse(json['date']),
-      reviewerName: json['reviewerName'] ?? '',
-      reviewerEmail: json['reviewerEmail'] ?? '',
+      date: json['date'],
+      reviewerName: json['reviewerName'],
+      reviewerEmail: json['reviewerEmail'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "rating": rating,
+      "comment": comment,
+      "date": date,
+      "reviewerName": reviewerName,
+      "reviewerEmail": reviewerEmail,
+    };
   }
 }
 
 class Meta {
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final String createdAt;
+  final String updatedAt;
   final String barcode;
   final String qrCode;
 
@@ -138,35 +186,19 @@ class Meta {
 
   factory Meta.fromJson(Map<String, dynamic> json) {
     return Meta(
-    createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : DateTime.now(),
-updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : DateTime.now(),
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
       barcode: json['barcode'],
       qrCode: json['qrCode'],
     );
-  } 
-}
+  }
 
-class ProductResponse {
-  final List<ProductModel> list;
-  final int total;
-  final int skip;
-  final int limit;
-
-  ProductResponse({
-    required this.list,
-    required this.total,
-    required this.skip,
-    required this.limit,
-  });
-
-  factory ProductResponse.fromJson(Map<String, dynamic> json) {
-    return ProductResponse(
-      list: (json['list'] as List)
-          .map((e) => ProductModel.fromJson(e))
-          .toList(),
-      total: json['total'],
-      skip: json['skip'],
-      limit: json['limit'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
+      "barcode": barcode,
+      "qrCode": qrCode,
+    };
   }
 }

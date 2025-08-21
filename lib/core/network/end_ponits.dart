@@ -5,22 +5,36 @@ class EndPoint {
   static String resentEmail = "auth/resetPassCode";
   static String verfication = "auth/activeResetPass";
   static String newpassword = "auth/resetPassword";
-  static String getProduct() {
-    return "home/products";
+  static String getProduct = "home/products";
+  static String getCategories = "home/categories";
+  static String getBrands = "home/brands";
+  static String getUserData = "portfoilo/userData";
+  static String postimageData = "portfoilo/addImage";
+  static String productDetailsByCategory({
+    required String category,
+    int skip = 0,
+    int limit = 10,
+  }) {
+    return "home/products/category/$category?skip=$skip&limit=$limit";
   }
+   static String productDetailsByBrands({
+    required String brands,
+    int skip = 0,
+    int limit = 10,
+  }) {
+    return "home/products/brand/$brands?skip=$skip&limit=$limit";
+  }
+
 }
 
 class ApiKey {
-
   static String email = "email";
   static String password = "password";
   static String token = "token";
- static String code = "code";
+  static String code = "code";
   static String message = "message";
   static String id = "id";
   static String name = "name";
   static String phone = "phone";
   static String confirmPassword = "confirmPassword";
-
- 
 }

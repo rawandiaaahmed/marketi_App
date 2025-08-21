@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
@@ -8,20 +9,14 @@ import 'package:flutter_application_1/core/theme/app_style.dart';
 class ProductCardHome extends StatelessWidget {
   const ProductCardHome({
     Key? key,
-    required this.image,
-    required this.price,
-    required this.name,
-    required this.rate,
+    required this.product,
     required this.onTap,
    required this.onAddToCart,
    required this.isFavorite,
    required this.onToggleFavorite,
   }) : super(key: key);
 
-  final String image;
-  final String price;
-  final String name;
-  final String rate;
+final ProductModel product;
   final VoidCallback onTap;
  final VoidCallback onAddToCart;  final bool isFavorite;
   final VoidCallback onToggleFavorite;
@@ -42,7 +37,7 @@ class ProductCardHome extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// صورة المنتج + زرار المفضلة
+            
             Expanded(
               child: Stack(
                 children: [
@@ -52,7 +47,7 @@ class ProductCardHome extends StatelessWidget {
                       topRight: Radius.circular(12.r),
                     ),
                     child: Image.network(
-                      image,
+                      product.thumbnail,
                       width: double.infinity,
                       height: 120.h,
                       fit: BoxFit.cover,
@@ -103,18 +98,18 @@ class ProductCardHome extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(price, style: AppStyles.detailsproductLines2Style),
+                      Text(product.price.toString(), style: AppStyles.detailsproductLines2Style),
                       Row(
                         children: [
                           Image.asset(AssetManager.rate),
                           SizedBox(width: 4.w),
-                          Text(rate, style: AppStyles.detailsproductLines2Style),
+                          Text(product.rating.toString(), style: AppStyles.detailsproductLines2Style),
                         ],
                       ),
                     ],
                   ),
                   Text(
-                    name,
+                    product.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppStyles.detailsproductLines2Style,
@@ -122,8 +117,6 @@ class ProductCardHome extends StatelessWidget {
                 ],
               ),
             ),
-
-            /// زرار Add
             GestureDetector(
               onTap: onAddToCart,
               child: Padding(

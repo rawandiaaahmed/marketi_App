@@ -27,7 +27,8 @@ abstract class StringRoute {
   static const String cart = 'cart';
   static const String productDetails = 'productDetails';
   static const String profile = 'profile';
-
+   static const String getcategorybyproduct = 'getcategorybyproduct';
+static const String getbrandsbyproduct = 'getbrandsbyproduct';
 
 
 }
