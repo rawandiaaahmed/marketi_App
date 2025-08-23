@@ -7,6 +7,10 @@ import 'package:flutter_application_1/core/network/dio_consumer.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/feature/auth/data/repo/auth_repository.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart' ;
+import 'package:flutter_application_1/feature/cart/data/repo/cart_repo.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
+import 'package:flutter_application_1/feature/favorite/data/repo/favorite_repo.dart';
+import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_cubit.dart';
 import 'package:flutter_application_1/feature/home/data/repo/product_repository.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
 import 'package:flutter_application_1/feature/profile/data/repo/profile_repository.dart';
@@ -35,7 +39,12 @@ void main() async {
          RepositoryProvider(
           create: (_) => ProfileRepository(api: dioConsumer),
         ),
-        
+        RepositoryProvider(
+          create: (_) => CartRepository(api: dioConsumer),
+        ),
+        RepositoryProvider(
+          create: (_) => FavoriteRepo(api: dioConsumer),
+        ), 
         
       ],
       child: MultiBlocProvider(
@@ -53,6 +62,20 @@ void main() async {
            BlocProvider(
             create: (context) => ProfileCubit(
               RepositoryProvider.of<ProfileRepository>(context),
+              
+              
+            ),
+          ),
+           BlocProvider(
+            create: (context) => FavoriteCubit(
+              RepositoryProvider.of<FavoriteRepo>(context),
+              
+              
+            ),
+          ),
+           BlocProvider(
+            create: (context) => CartCubit(
+              RepositoryProvider.of<CartRepository>(context),
               
               
             ),

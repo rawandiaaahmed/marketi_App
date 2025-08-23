@@ -8,6 +8,12 @@ class EndPoint {
   static String getProduct = "home/products";
   static String getCategories = "home/categories";
   static String getBrands = "home/brands";
+   static String getcart = "user/getCart";
+    static String postcart = "user/addCart";
+     static String deletecart = "user/deleteCart";
+      static String getfavorite = "user/getFavorite";
+       static String postfavorite = "user/addFavorite";
+        static String deletefavorite = "user/deleteCart";
   static String getUserData = "portfoilo/userData";
   static String postimageData = "portfoilo/addImage";
   static String productDetailsByCategory({

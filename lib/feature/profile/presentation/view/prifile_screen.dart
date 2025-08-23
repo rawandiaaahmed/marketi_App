@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -28,13 +27,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      // هنا تبعت الصورة للـ Cubit عشان يرفعها للسيرفر
+    
       context.read<ProfileCubit>().uploadImage(File(image.path));
     }
   }
+
   @override
   void initState() {
-  context.read<ProfileCubit>().getUserProfile();
+    context.read<ProfileCubit>().getUserProfile();
     super.initState();
   }
 
@@ -45,15 +45,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is GetProfileFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error),
-            ),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.error)));
         } else if (state is UploadImageFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.error)));
         } else if (state is UploadImageSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Profile image updated successfully")),
@@ -95,122 +93,123 @@ class _ProfileScreenState extends State<ProfileScreen> {
           body: state is GetProfileLoading
               ? const Center(child: CircularProgressIndicator())
               : state is GetProfileSuccess
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.w, vertical: 20.h),
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 50.r,
-                                  backgroundImage: state.profile.image.isNotEmpty
-                                      ? NetworkImage(state.profile.image)
-                                      : const AssetImage(
-                                              "assets/images/placeholder.png")
-                                          as ImageProvider,
+              ? Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 20.h,
+                  ),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 50.r,
+                              backgroundImage: state.profile.image.isNotEmpty
+                                  ? NetworkImage(state.profile.image)
+                                  : const AssetImage(
+                                          "assets/images/placeholder.png",
+                                        )
+                                        as ImageProvider,
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: InkWell(
+                                onTap: () => _pickImage(context),
+                                child: CircleAvatar(
+                                  radius: 15.r,
+                                  backgroundColor: AppColors.lightBlue100,
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                    size: 18.sp,
+                                  ),
                                 ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: InkWell(
-                                    onTap: () => _pickImage(context),
-                                    child: CircleAvatar(
-                                      radius: 15.r,
-                                      backgroundColor:
-                                          AppColors.lightBlue100,
-                                      child: Icon(Icons.add,
-                                          color: Colors.white, size: 18.sp),
-                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        state.profile.name,
+                        style: AppStyles.onboarderHeadLinesStyle.copyWith(
+                          fontSize: 18.sp,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      Text(
+                        state.profile.email,
+                        style: AppStyles.details2Lines2Style.copyWith(
+                          fontSize: 14.sp,
+                          color: isDarkMode ? Colors.white70 : Colors.black54,
+                        ),
+                      ),
+                      SizedBox(height: 30.h),
+                      ProfileOption(
+                        image: AssetManager.user,
+                        title: 'Account Preferences',
+                        isDarkMode: isDarkMode,
+                        onTap: () {},
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  AssetManager.mode,
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                                SizedBox(width: 10.w),
+                                Text(
+                                  'Dark Mode',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            state.profile.name,
-                            style: AppStyles.onboarderHeadLinesStyle.copyWith(
-                              fontSize: 18.sp,
-                              color: isDarkMode ? Colors.white : Colors.black,
+                            Switch(
+                              value: isDarkMode,
+                              onChanged: (val) {
+                                context.read<ThemeCubit>().toggleTheme(val);
+                              },
+                              activeColor: AppColors.black,
                             ),
-                          ),
-                          Text(
-                            state.profile.email,
-                            style: AppStyles.details2Lines2Style.copyWith(
-                              fontSize: 14.sp,
-                              color: isDarkMode
-                                  ? Colors.white70
-                                  : Colors.black54,
-                            ),
-                          ),
-                          SizedBox(height: 30.h),
-                          ProfileOption(
-                            image: AssetManager.user,
-                            title: 'Account Preferences',
-                            isDarkMode: isDarkMode,
-                            onTap: () {},
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      AssetManager.mode,
-                                      color: isDarkMode
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    Text(
-                                      'Dark Mode',
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: isDarkMode
-                                            ? Colors.white
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Switch(
-                                  value: isDarkMode,
-                                  onChanged: (val) {
-                                    context
-                                        .read<ThemeCubit>()
-                                        .toggleTheme(val);
-                                  },
-                                  activeColor: AppColors.black,
-                                ),
-                              ],
-                            ),
-                          ),
-                          ProfileOption(
-                            image: AssetManager.ratep,
-                            title: 'Rate Us',
-                            isDarkMode: isDarkMode,
-                            onTap: () {},
-                          ),
-                          ProfileOption(
-                            image: AssetManager.feedback,
-                            title: 'Provide Feedback',
-                            isDarkMode: isDarkMode,
-                            onTap: () {},
-                          ),
-                          ProfileOption(
-                            image: AssetManager.logout,
-                            title: 'Log Out',
-                            isDarkMode: isDarkMode,
-                            onTap: () {},
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    )
-                  : Container(),
+                      ProfileOption(
+                        image: AssetManager.ratep,
+                        title: 'Rate Us',
+                        isDarkMode: isDarkMode,
+                        onTap: () {},
+                      ),
+                      ProfileOption(
+                        image: AssetManager.feedback,
+                        title: 'Provide Feedback',
+                        isDarkMode: isDarkMode,
+                        onTap: () {},
+                      ),
+                      ProfileOption(
+                        image: AssetManager.logout,
+                        title: 'Log Out',
+                        isDarkMode: isDarkMode,
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
         );
       },
     );

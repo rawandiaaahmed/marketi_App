@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view/cart_screen.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view/product_cart_screen.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_screen.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/home_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/widgets/product_card.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view/prifile_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -18,13 +20,13 @@ class _BottomBarState extends State<BottomBar> {
 
   final List<Widget> pages = [
     const HomeScreen(),
-    const CartScreen(),
+     ProductCartScreen(),
      FavoriteScreen(),
      ProfileScreen(),
   ];
 
   void onItemTapped(int index) {
-    setState(() {
+    setState(() { 
       selected = index;
     });
   }

@@ -5,7 +5,7 @@ import 'package:flutter_application_1/feature/home/data/model/product_details_mo
 
 import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
 import 'package:flutter_application_1/feature/home/data/repo/product_repository.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_state.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeCubit extends Cubit<HomeState> {

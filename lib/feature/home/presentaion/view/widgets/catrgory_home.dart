@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
+import 'package:flutter_application_1/core/widget/louding_cubit.dart';
 
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/category_card.dart';
 
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/section_header.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
 
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_state.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,7 +42,7 @@ class CatrgoryHome extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             if (state is GetCategoryLoading)
-              const Center(child: CircularProgressIndicator()),
+              ProductLoadingWidget(),
 
             if (state is GetCategorySuccess) ...[
               SizedBox(

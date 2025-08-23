@@ -8,14 +8,15 @@ import 'package:flutter_application_1/feature/auth/presentation/view/forget_pass
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/verification_email_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/login/sign_in_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/sign_up/sign_up_screen.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view/cart_screen.dart';
 
 import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
 
-import 'package:flutter_application_1/feature/home/presentaion/view/brands_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/brands_view_screen.dart';
 
-import 'package:flutter_application_1/feature/home/presentaion/view/category_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/category_view_screen.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_screen.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/popular_product_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/popular_product_view_screen.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view/product_cart_screen.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/product_by_brand_screen.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/product_by_category_screen.dart';
@@ -178,6 +179,11 @@ class AppRoutes {
       case StringRoute.favorite:
         return BaseRoute(
           page: FavoriteScreen(),
+          transitionType: RouteTransitionType.fade,
+        );
+         case StringRoute.cartempty:
+        return BaseRoute(
+          page: CartScreen(),
           transitionType: RouteTransitionType.fade,
         );
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
 import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,7 +37,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               onTap: () => Navigator.pop(context),
               child: Image.asset(AssetManager.back),
             ),
-            SizedBox(width: 60.w),
+            SizedBox(width: 55.w),
             Text("product Details", style: AppStyles.onboarderHeadLinesStyle),
             const Spacer(),
             const Icon(Icons.shopping_cart, color: AppColors.darkblue100),
@@ -161,7 +163,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Price\n${product.price} EGP",
+                  "Price\n\$${product.price.toString()}",
                   style: AppStyles.namehomeHeadLinesStyle.copyWith(
                     fontSize: 18.sp,
                   ),
@@ -177,7 +179,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+               context.read<CartCubit>().addToCart(product.id);
+
+                  },
                   child: Row(
                     children: [
                       Image.asset(

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/widget/louding_cubit.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
+import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_cubit.dart';
+import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_state.dart';
 
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/product_cart_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/section_header.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_state.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
@@ -26,7 +30,60 @@ class PopularProduct extends StatelessWidget {
       
       },
       builder: (context, state) {
-        return Column(
+        return 
+         MultiBlocListener(
+          
+      listeners: [
+        BlocListener<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (state is GetProductFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          },
+        ),
+        BlocListener<CartCubit, CartState>(
+          listener: (context, state) {
+            if (state is AddCartSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Added successfully ✅"),
+                  
+                ),
+              );
+            } else if (state is CartFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errMessage),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+        ),
+         BlocListener<FavoriteCubit, FavoriteState>(
+      listener: (context, state) {
+        if (state is AddFavoriteSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Added to favorites successfully ⭐"),
+            ),
+          );
+        } else if (state is FavoriteFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errMessage),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+    ),
+      ],
+      
+      
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SectionHeader(
@@ -38,7 +95,7 @@ class PopularProduct extends StatelessWidget {
             SizedBox(height: 8.h),
 
             if (state is GetProductLoading)
-              const Center(child: CircularProgressIndicator()),
+              ProductLoadingWidget(),
 
             if (state is GetProductSuccess) ...[
               SizedBox(
@@ -59,10 +116,10 @@ class PopularProduct extends StatelessWidget {
                                 arguments: product,
                               );},
                       onAddToCart: () {
-                        context.read<HomeCubit>().addToCart(product);
+                        context.read<CartCubit>().addToCart(product.id);
                       },
                       onToggleFavorite: () {
-                        context.read<HomeCubit>().toggleFavorite(product);
+                        context.read<FavoriteCubit>().addFavorite(product.id);
                       },
                     );
                   },
@@ -79,6 +136,7 @@ class PopularProduct extends StatelessWidget {
                 ),
               ),
           ],
+      )
         );
       },
     );

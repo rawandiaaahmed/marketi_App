@@ -25,6 +25,7 @@ abstract class StringRoute {
   static const String category = 'category';
     static const String brands = 'brands';
   static const String cart = 'cart';
+   static const String cartempty = 'cartempty';
   static const String productDetails = 'productDetails';
   static const String profile = 'profile';
    static const String getcategorybyproduct = 'getcategorybyproduct';

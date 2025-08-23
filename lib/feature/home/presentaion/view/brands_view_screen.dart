@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
+import 'package:flutter_application_1/core/widget/louding_cubit.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/brands_cart.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/product_state.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,11 +52,7 @@ class _BrandsScreenState extends State<BrandsScreen> {
                 ),
                 SizedBox(width: 90.w),
                 Text(AppStrings.brands, style: AppStyles.namehomeHeadLinesStyle),
-                const Spacer(),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage(AssetManager.homeimage),
-                ),
+                
               ],
             ),
           ),
@@ -69,7 +66,7 @@ class _BrandsScreenState extends State<BrandsScreen> {
                 Text(AppStrings.brand, style: AppStyles.onboarderHeadLinesStyle),
                 SizedBox(height: 10.h),
                 if (state is GetBrandLoading)
-                  const Center(child: CircularProgressIndicator()),
+                   ProductLoadingWidget(),
                 if (state is GetBrandSuccess)
                   Expanded(
                     child: GridView.builder(

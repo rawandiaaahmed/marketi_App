@@ -98,7 +98,7 @@ final ProductModel product;
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(product.price.toString(), style: AppStyles.detailsproductLines2Style),
+                      Text('\$${product.price.toString()}', style: AppStyles.detailsproductLines2Style),
                       Row(
                         children: [
                           Image.asset(AssetManager.rate),

@@ -28,11 +28,7 @@ class CartScreen extends StatelessWidget {
             ),
             SizedBox(width: 100.w),
             Text(AppStrings.cart4, style: AppStyles.namehomeHeadLinesStyle),
-            const Spacer(),
-           CircleAvatar(
-                        radius: 20,
-                        backgroundImage: AssetImage(AssetManager.homeimage),
-                      ),
+           
           ],
         ),
       ),
