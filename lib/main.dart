@@ -16,6 +16,8 @@ import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/
 import 'package:flutter_application_1/feature/profile/data/repo/profile_repository.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view_model/cubit/profile_cubit.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view_model/cubit/them_cubit.dart';
+import 'package:flutter_application_1/feature/search/data/repo/search_repo.dart';
+import 'package:flutter_application_1/feature/search/presentation/view_model/cubit/search_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,6 +34,9 @@ void main() async {
       providers: [
         RepositoryProvider(
           create: (_) => AuthRepository(api: dioConsumer),
+        ),
+         RepositoryProvider(
+          create: (_) => SearchRepo(api: dioConsumer),
         ),
         RepositoryProvider(
           create: (_) => HomeRepository(api: dioConsumer),
@@ -62,6 +67,13 @@ void main() async {
            BlocProvider(
             create: (context) => ProfileCubit(
               RepositoryProvider.of<ProfileRepository>(context),
+              
+              
+            ),
+          ),
+            BlocProvider(
+            create: (context) => SearchCubit(
+              RepositoryProvider.of<SearchRepo>(context),
               
               
             ),

@@ -6,25 +6,34 @@ import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
 
-class ProductCardHome extends StatelessWidget {
-  const ProductCardHome({
+class ProductCardHome extends StatefulWidget {
+   ProductCardHome({
     Key? key,
     required this.product,
     required this.onTap,
-   required this.onAddToCart,
-   required this.isFavorite,
-   required this.onToggleFavorite,
+    required this.onAddToCart,
+    required this.isFavorite,
+    required this.onToggleFavorite,
   }) : super(key: key);
 
-final ProductModel product;
+  final ProductModel product;
   final VoidCallback onTap;
- final VoidCallback onAddToCart;  final bool isFavorite;
+  final VoidCallback onAddToCart;
+  final bool isFavorite;
   final VoidCallback onToggleFavorite;
+
+  @override
+  State<ProductCardHome> createState() => _ProductCardHomeState();
+}
+
+class _ProductCardHomeState extends State<ProductCardHome> {
+  bool _isPressedAdd = false;
+  bool _isPressedFav = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         width: 164.w,
         height: 200.h,
@@ -37,7 +46,7 @@ final ProductModel product;
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
+          
             Expanded(
               child: Stack(
                 children: [
@@ -47,7 +56,7 @@ final ProductModel product;
                       topRight: Radius.circular(12.r),
                     ),
                     child: Image.network(
-                      product.thumbnail,
+                      widget.product.thumbnail,
                       width: double.infinity,
                       height: 120.h,
                       fit: BoxFit.cover,
@@ -61,8 +70,14 @@ final ProductModel product;
                     top: 8.h,
                     right: 8.w,
                     child: GestureDetector(
-                      onTap: onToggleFavorite,
-                      child: Container(
+                      onTapDown: (_) => setState(() => _isPressedFav = true),
+                      onTapUp: (_) => setState(() => _isPressedFav = false),
+                      onTapCancel: () => setState(() => _isPressedFav = false),
+                      onTap: widget.onToggleFavorite,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 150),
+                        transform: Matrix4.identity()
+                          ..scale(_isPressedFav ? 0.85 : 1.0),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
@@ -74,13 +89,11 @@ final ProductModel product;
                             ),
                           ],
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.all(4.w),
-                          child: Icon(
-                            isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: isFavorite ? Colors.red : AppColors.darkblue900,
-                            size: 20.sp,
-                          ),
+                        padding: EdgeInsets.all(4.w),
+                        child: Icon(
+                          widget.isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: widget.isFavorite ? Colors.red : AppColors.darkblue900,
+                          size: 20.sp,
                         ),
                       ),
                     ),
@@ -88,8 +101,6 @@ final ProductModel product;
                 ],
               ),
             ),
-
-        
             Padding(
               padding: EdgeInsets.all(8.w),
               child: Column(
@@ -98,18 +109,18 @@ final ProductModel product;
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('\$${product.price.toString()}', style: AppStyles.detailsproductLines2Style),
+                      Text('\$${widget.product.price}', style: AppStyles.detailsproductLines2Style),
                       Row(
                         children: [
                           Image.asset(AssetManager.rate),
                           SizedBox(width: 4.w),
-                          Text(product.rating.toString(), style: AppStyles.detailsproductLines2Style),
+                          Text(widget.product.rating.toString(), style: AppStyles.detailsproductLines2Style),
                         ],
                       ),
                     ],
                   ),
                   Text(
-                    product.title,
+                    widget.product.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppStyles.detailsproductLines2Style,
@@ -118,22 +129,24 @@ final ProductModel product;
               ),
             ),
             GestureDetector(
-              onTap: onAddToCart,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
-                child: Container(
-                  height: 30.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(14.r),
-                    border: Border.all(color: AppColors.lightBlue100),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Add",
-                      style: AppStyles.producLines2Style,
-                    ),
+              onTapDown: (_) => setState(() => _isPressedAdd = true),
+              onTapUp: (_) => setState(() => _isPressedAdd = false),
+              onTapCancel: () => setState(() => _isPressedAdd = false),
+              onTap: widget.onAddToCart,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
+                height: 30.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: _isPressedAdd ? AppColors.lightBlue100 : AppColors.white,
+                  borderRadius: BorderRadius.circular(14.r),
+                  border: Border.all(color: AppColors.lightBlue100),
+                ),
+                child: Center(
+                  child: Text(
+                    "Add",
+                    style: AppStyles.producLines2Style,
                   ),
                 ),
               ),

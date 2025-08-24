@@ -10,6 +10,7 @@ class EndPoint {
   static String getBrands = "home/brands";
    static String getcart = "user/getCart";
     static String postcart = "user/addCart";
+    static String search = "home/productsFilter";
      static String deletecart = "user/deleteCart";
       static String getfavorite = "user/getFavorite";
        static String postfavorite = "user/addFavorite";
@@ -42,5 +43,8 @@ class ApiKey {
   static String id = "id";
   static String name = "name";
   static String phone = "phone";
+   static String search = "search";
+    static String skip = "skip";
+     static String limit = "limit";
   static String confirmPassword = "confirmPassword";
 }

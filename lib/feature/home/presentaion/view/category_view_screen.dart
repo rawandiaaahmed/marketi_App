@@ -3,6 +3,7 @@ import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
 import 'package:flutter_application_1/core/widget/louding_cubit.dart';
+import 'package:flutter_application_1/feature/home/data/model/category_model.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/category_card.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/product_by_category_screen.dart';
@@ -19,10 +20,28 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+  List<CategoryModel> allCategories = []; 
+  List<CategoryModel> filteredCategories = [];
+
   @override
   void initState() {
     context.read<HomeCubit>().getCategories();
     super.initState();
+  }
+
+  void filterCategories(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredCategories = allCategories;
+      });
+    } else {
+      setState(() {
+        filteredCategories = allCategories
+            .where((cat) =>
+                cat.name.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
   }
 
   @override
@@ -34,9 +53,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
           current is GetCategoryFailure,
       listener: (context, state) {
         if (state is GetCategoryFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.errMessage)));
+        }
+        if (state is GetCategorySuccess) {
+          allCategories = state.categories; 
+          if (filteredCategories.isEmpty) {
+            filteredCategories = state.categories;
+          }
         }
       },
       builder: (context, state) {
@@ -55,64 +79,68 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 SizedBox(width: 70.w),
                 Text(AppStrings.category,
                     style: AppStyles.namehomeHeadLinesStyle),
-                
               ],
             ),
           ),
           body: Padding(
             padding: EdgeInsets.all(10.h),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SearchHome(onTap: () {}),
-                  SizedBox(height: 10.h),
-                  Text(AppStrings.categories,
-                      style: AppStyles.onboarderHeadLinesStyle),
-                  SizedBox(height: 10.h),
-                  if (state is GetCategoryLoading)
-                    ProductLoadingWidget(),
-                  if (state is GetCategorySuccess) ...[
-                    Expanded(
-                      child: NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification notification) {
-                          if (notification.metrics.pixels >=
-                              notification.metrics.maxScrollExtent) {
-                            context
-                                .read<HomeCubit>()
-                                .getCategories(isLoadMore: true);
-                          }
-                          return true;
-                        },
-                        child: GridView.builder(
-                          itemCount: state.categories.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10.h,
-                            crossAxisSpacing: 20.w,
-                            childAspectRatio: 1.4,
-                          ),
-                          itemBuilder: (context, index) {
-                            final category = state.categories[index];
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => ProductByCategoryScreen(
-                                      category: category.name,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+          
+                SearchHome(
+                  onChanged: (query) {
+                    filterCategories(query);
+                  },
+                ),
+                SizedBox(height: 10.h),
+                Text(AppStrings.categories,
+                    style: AppStyles.onboarderHeadLinesStyle),
+                SizedBox(height: 10.h),
+                if (state is GetCategoryLoading) ProductLoadingWidget(),
+                if (state is GetCategorySuccess) ...[
+                  Expanded(
+                    child: filteredCategories.isEmpty
+                        ? const Center(
+                            child: Text(
+                              "No categories found",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
+                        : GridView.builder(
+                            itemCount: filteredCategories.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10.h,
+                              crossAxisSpacing: 20.w,
+                              childAspectRatio: 1.4,
+                            ),
+                            itemBuilder: (context, index) {
+                              final category = filteredCategories[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => ProductByCategoryScreen(
+                                        category: category.name,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              child: CategoryCard(category: category),
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                ]),
+                                  );
+                                },
+                                child: CategoryCard(category: category),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ],
+            ),
           ),
         );
       },

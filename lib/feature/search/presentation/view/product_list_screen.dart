@@ -71,7 +71,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
       body: Column(
         children: [
-          Padding(padding: EdgeInsets.all(16.h), child: SearchHome(onTap: () {})),
+          Padding(padding: EdgeInsets.all(16.h), ),
           Expanded(
             child: ListView.separated(
               padding: EdgeInsets.all(16.w),

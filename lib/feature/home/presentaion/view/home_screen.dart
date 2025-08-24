@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
+import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
+import 'package:flutter_application_1/core/theme/app_style.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/banner_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/brands_home.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/catrgory_home.dart';
@@ -24,8 +26,11 @@ class HomeScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (_) => HomeCubit(repository)..getProduct()..getCategories()..getBrands()),
-    
+          create: (_) => HomeCubit(repository)
+            ..getProduct()
+            ..getCategories()
+            ..getBrands(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -41,27 +46,52 @@ class HomeScreen extends StatelessWidget {
                     HeaderHome(),
                     SizedBox(height: 16.h),
 
-                    SearchHome(
+                    GestureDetector(
                       onTap: () {
                         context.pushName(StringRoute.search);
                       },
+
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                          vertical: 4.h,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(color: Colors.grey.shade300),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(AssetManager.search),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Text(
+                                "What are you looking for ?",
+                                style: AppStyles.searchLines2Style,
+                              ),
+                            ),
+                            Image.asset(AssetManager.searchFilter),
+                          ],
+                        ),
+                      ),
                     ),
 
                     SizedBox(height: 16.h),
 
                     BannerHome(),
-                   SizedBox(height: 20.h),
+                    SizedBox(height: 20.h),
 
                     // // Popular Products
                     PopularProduct(),
-                     SizedBox(height: 20.h),
+                    SizedBox(height: 20.h),
 
                     // // Categories
-                     const CatrgoryHome(),
-                      SizedBox(height: 20.h),
+                    const CatrgoryHome(),
+                    SizedBox(height: 20.h),
 
                     // // Brands
-                      BrandsHome(),
+                    BrandsHome(),
                   ],
                 ),
               ),

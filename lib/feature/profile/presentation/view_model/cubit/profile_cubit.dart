@@ -12,10 +12,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepository userRepository;
 
   getUserProfile() async {
-    if (isClosed) return;
+   
     emit(GetProfileLoading());
     final response = await userRepository.getUserProfile();
-    if (isClosed) return;
+    
     response.fold(
       (errMessage) => emit(GetProfileFailure(error: errMessage)),
       (profile) => emit(GetProfileSuccess(profile: profile)),
@@ -23,7 +23,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   uploadImage(File imageFile) async {
-    if (isClosed) return;
+   
     if (state is GetProfileSuccess) {
       final userId = (state as GetProfileSuccess).profile.id;
       emit(GetProfileLoading());
@@ -31,7 +31,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         userId: userId,
         imageFile: imageFile,
       );
-      if (isClosed) return;
+     
       response.fold(
         (errMessage) => emit(GetProfileFailure(error: errMessage)),
         (profile) => emit(GetProfileSuccess(profile: profile)),

@@ -45,7 +45,7 @@ class ProductByBrandScreen extends StatelessWidget {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.errMessage)));
           }
-          // ممكن تضيف أي كود آخر للتنبيهات أو actions هنا
+        
         },
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {

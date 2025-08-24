@@ -5,7 +5,7 @@ class CartResponse {
 
   factory CartResponse.fromJson(Map<String, dynamic> json) {
     return CartResponse(
-      list: (json['list'] as List)
+      list: (json['list'] as List? ?? [])
           .map((e) => CartModel.fromJson(e))
           .toList(),
     );
@@ -31,14 +31,14 @@ class CartModel {
   final String brand;
   final String sku;
   final int weight;
-  final CartDimensions dimensions;
+  final CartDimensions? dimensions;
   final String warrantyInformation;
   final String shippingInformation;
   final String availabilityStatus;
   final List<CartReview> reviews;
   final String returnPolicy;
   final int minimumOrderQuantity;
-  final CartMeta meta;
+  final CartMeta? meta;
   final List<String> images;
   final String thumbnail;
 
@@ -69,30 +69,32 @@ class CartModel {
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return CartModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      category: json['category'],
-      price: (json['price'] as num).toDouble(),
-      discountPercentage: (json['discountPercentage'] as num).toDouble(),
-      rating: (json['rating'] as num).toDouble(),
-      stock: json['stock'],
-      tags: List<String>.from(json['tags']),
-      brand: json['brand'],
-      sku: json['sku'],
-      weight: json['weight'],
-      dimensions: CartDimensions.fromJson(json['dimensions']),
-      warrantyInformation: json['warrantyInformation'],
-      shippingInformation: json['shippingInformation'],
-      availabilityStatus: json['availabilityStatus'],
-      reviews: (json['reviews'] as List)
+      id: json['id'] ?? 0,
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      category: json['category'] ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      discountPercentage: (json['discountPercentage'] as num?)?.toDouble() ?? 0.0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      stock: json['stock'] ?? 0,
+      tags: (json['tags'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      brand: json['brand'] ?? '',
+      sku: json['sku'] ?? '',
+      weight: json['weight'] ?? 0,
+      dimensions: json['dimensions'] != null
+          ? CartDimensions.fromJson(json['dimensions'])
+          : null,
+      warrantyInformation: json['warrantyInformation'] ?? '',
+      shippingInformation: json['shippingInformation'] ?? '',
+      availabilityStatus: json['availabilityStatus'] ?? '',
+      reviews: (json['reviews'] as List? ?? [])
           .map((e) => CartReview.fromJson(e))
           .toList(),
-      returnPolicy: json['returnPolicy'],
-      minimumOrderQuantity: json['minimumOrderQuantity'],
-      meta: CartMeta.fromJson(json['meta']),
-      images: List<String>.from(json['images']),
-      thumbnail: json['thumbnail'],
+      returnPolicy: json['returnPolicy'] ?? '',
+      minimumOrderQuantity: json['minimumOrderQuantity'] ?? 1,
+      meta: json['meta'] != null ? CartMeta.fromJson(json['meta']) : null,
+      images: (json['images'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      thumbnail: json['thumbnail'] ?? '',
     );
   }
 
@@ -110,14 +112,14 @@ class CartModel {
       'brand': brand,
       'sku': sku,
       'weight': weight,
-      'dimensions': dimensions.toJson(),
+      'dimensions': dimensions?.toJson(),
       'warrantyInformation': warrantyInformation,
       'shippingInformation': shippingInformation,
       'availabilityStatus': availabilityStatus,
       'reviews': reviews.map((e) => e.toJson()).toList(),
       'returnPolicy': returnPolicy,
       'minimumOrderQuantity': minimumOrderQuantity,
-      'meta': meta.toJson(),
+      'meta': meta?.toJson(),
       'images': images,
       'thumbnail': thumbnail,
     };
@@ -137,9 +139,9 @@ class CartDimensions {
 
   factory CartDimensions.fromJson(Map<String, dynamic> json) {
     return CartDimensions(
-      width: (json['width'] as num).toDouble(),
-      height: (json['height'] as num).toDouble(),
-      depth: (json['depth'] as num).toDouble(),
+      width: (json['width'] as num?)?.toDouble() ?? 0.0,
+      height: (json['height'] as num?)?.toDouble() ?? 0.0,
+      depth: (json['depth'] as num?)?.toDouble() ?? 0.0,
     );
   }
 
@@ -169,11 +171,11 @@ class CartReview {
 
   factory CartReview.fromJson(Map<String, dynamic> json) {
     return CartReview(
-      rating: json['rating'],
-      comment: json['comment'],
-      date: json['date'],
-      reviewerName: json['reviewerName'],
-      reviewerEmail: json['reviewerEmail'],
+      rating: json['rating'] ?? 0,
+      comment: json['comment'] ?? '',
+      date: json['date'] ?? '',
+      reviewerName: json['reviewerName'] ?? '',
+      reviewerEmail: json['reviewerEmail'] ?? '',
     );
   }
 
@@ -203,10 +205,10 @@ class CartMeta {
 
   factory CartMeta.fromJson(Map<String, dynamic> json) {
     return CartMeta(
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      barcode: json['barcode'],
-      qrCode: json['qrCode'],
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
+      barcode: json['barcode'] ?? '',
+      qrCode: json['qrCode'] ?? '',
     );
   }
 

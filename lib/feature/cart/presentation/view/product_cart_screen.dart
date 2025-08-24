@@ -15,13 +15,9 @@ class ProductCartScreen extends StatefulWidget {
 }
 
 class _ProductCartScreenState extends State<ProductCartScreen> {
-  List<bool> favorites = [];
-  List<int> quantities = [];
-
   @override
   void initState() {
     super.initState();
-    
     context.read<CartCubit>().getUsercart();
   }
 
@@ -41,50 +37,43 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
             ),
             SizedBox(width: 100.w),
             Text(AppStrings.cart4, style: AppStyles.namehomeHeadLinesStyle),
-            const Spacer(),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage(AssetManager.homeimage),
-            ),
           ],
         ),
       ),
       body: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
-          if (state is CartFailure) {
+          if (state is CartFailure ||
+              state is AddCartFailure ||
+              state is DeleteCartFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.errMessage),
-               
+                content: Text(state is CartFailure
+                    ? state.errMessage
+                    : state is AddCartFailure
+                        ? state.errMessage
+                        : (state as DeleteCartFailure).errMessage),
+                backgroundColor: Colors.red,
               ),
             );
-          } else if (state is CartSuccess) {
+          } else if (state is AddCartSuccess || state is DeleteCartSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("success✅"),
-               
+              SnackBar(
+                content: Text(state is AddCartSuccess
+                    ? state.message
+                    : (state as DeleteCartSuccess).message),
+                backgroundColor: Colors.green,
               ),
             );
+            context.read<CartCubit>().getUsercart();
           }
         },
         builder: (context, state) {
           if (state is CartLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is CartFailure) {
-  
-            return const Center(child: Text("false"));
+            return const Center(child: Text("Failed to load cart"));
           } else if (state is CartSuccess) {
             final cartItems = state.cartmodel;
-
-            if (favorites.isEmpty) {
-              favorites = List.generate(cartItems.length, (index) => false);
-              quantities = List.generate(cartItems.length, (index) => 0);
-            }
-
-            double total = 0;
-            for (int i = 0; i < cartItems.length; i++) {
-              total += cartItems[i].price * quantities[i];
-            }
 
             return Column(
               children: [
@@ -115,7 +104,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                         ),
                         child: Row(
                           children: [
-                      
+              
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8.r),
                               child: Image.network(
@@ -127,12 +116,12 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                             ),
                             SizedBox(width: 10.w),
 
-            
+                  
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                          
+                        
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -146,26 +135,40 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          setState(() {
-                                            favorites[index] =
-                                                !favorites[index];
-                                          });
+                                          context
+                                              .read<CartCubit>()
+                                              .deleteFromCart(product.id);
                                         },
-                                        child: Icon(
-                                          favorites[index]
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: favorites[index]
-                                              ? Colors.black
-                                              : AppColors.darkblue900,
-                                          size: 22.sp,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 1.h, horizontal: 2.w),
+                                          decoration: BoxDecoration(
+                                            color: Colors.red.shade400,
+                                            borderRadius:
+                                                BorderRadius.circular(12.r),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.red.shade200,
+                                                blurRadius: 4,
+                                                offset: const Offset(0, 2),
+                                              )
+                                            ],
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.delete,
+                                                  color: Colors.white, size: 18),
+                                              SizedBox(width: 2.w),
+                                             
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                   SizedBox(height: 4.h),
 
-                  
+                    
                                   Text(
                                     product.description,
                                     style: AppStyles.detailsLines2Style,
@@ -177,47 +180,17 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                       
                                   Row(
                                     children: [
-                                      Image.asset(AssetManager.time),
-                                      SizedBox(width: 2.w),
                                       Text(
-                                        "Deliver in 60 mins",
-                                        style: AppStyles.details2Lines2Style,
+                                        '\$${product.price}', style: AppStyles.detailsproductLines2Style,
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 6.h),
-
-                  
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                      
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Price: ${product.price} EGP",
-                                            style:
-                                                AppStyles.onboarderLines2Style,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Image.asset(AssetManager.rate),
-                                              SizedBox(width: 4.w),
-                                              Text(
-                                                '${product.rating}',
-                                                style: AppStyles
-                                                    .detailsproductLines2Style,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                      SizedBox(width: 12.w),
+                                      Image.asset(AssetManager.rate),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        '${product.rating}',
+                                        style: AppStyles
+                                            .detailsproductLines2Style,
                                       ),
-                                      SizedBox(height: 8.h),
-
-                      
                                     ],
                                   ),
                                 ],
@@ -229,9 +202,6 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                     },
                   ),
                 ),
-
-      
-              
               ],
             );
           }

@@ -42,7 +42,7 @@ class FavoriteModel {
   final List<String> images;
   final String thumbnail;
 
- FavoriteModel({
+  FavoriteModel({
     required this.id,
     required this.title,
     required this.description,
@@ -122,9 +122,7 @@ class FavoriteModel {
       'thumbnail': thumbnail,
     };
   }
-}
-
-class CartDimensions {
+}class CartDimensions {
   final double width;
   final double height;
   final double depth;

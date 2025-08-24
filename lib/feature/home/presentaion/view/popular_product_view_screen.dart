@@ -32,7 +32,7 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        // Listener للـ HomeCubit
+      
         BlocListener<HomeCubit, HomeState>(
           listener: (context, state) {
             if (state is GetProductFailure) {
@@ -42,7 +42,7 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
             }
           },
         ),
-        // Listener للـ CartCubit
+      
         BlocListener<CartCubit, CartState>(
           listener: (context, state) {
             if (state is AddCartSuccess) {
@@ -98,10 +98,7 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
                     style: AppStyles.namehomeHeadLinesStyle,
                   ),
                   const Spacer(),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage(AssetManager.homeimage),
-                  ),
+                 
                 ],
               ),
             ),
@@ -110,7 +107,30 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SearchHome(onTap: () {}),
+                  GestureDetector(
+   
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(AssetManager.search),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: Text(
+                "What are you looking for ?",
+                style: AppStyles.searchLines2Style,
+              ),
+            ),
+            Image.asset(AssetManager.searchFilter),
+          ],
+        ),
+      ),
+                  ),
                   SizedBox(height: 10.h),
                   Text("All products", style: AppStyles.onboarderHeadLinesStyle),
                   SizedBox(height: 10.h),

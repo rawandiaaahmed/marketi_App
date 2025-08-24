@@ -3,6 +3,7 @@ import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_cubit.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_state.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
@@ -49,9 +50,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SearchHome(onTap: () {}),
+          
             SizedBox(height: 10.h),
-            Text("All products", style: AppStyles.onboarderHeadLinesStyle),
+            Text("All Favorites", style: AppStyles.onboarderHeadLinesStyle),
             SizedBox(height: 10.h),
             Expanded(
               child: BlocConsumer<FavoriteCubit, FavoriteState>(
@@ -181,8 +182,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "${product.price} EGP",
-                                          style: AppStyles.detailsproductLines2Style,
+                                         '\$${product.price}', style: AppStyles.detailsproductLines2Style,
+                                         
                                         ),
                                         Row(
                                           children: [
@@ -204,10 +205,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  context.pushName(
-                                    StringRoute.productDetails,
-                                    arguments: product,
-                                  );
+                                context.read<CartCubit>().addToCart(product.id);
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
@@ -221,7 +219,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        "View",
+                                        "Add",
                                         style: AppStyles.producLines2Style,
                                       ),
                                     ),

@@ -3,8 +3,8 @@ import 'package:flutter_application_1/core/errors/exceptions.dart';
 
 import 'package:flutter_application_1/core/network/api_consumer.dart';
 import 'package:flutter_application_1/core/network/end_ponits.dart';
-import 'package:flutter_application_1/feature/cart/data/model/favorit_items_model.dart';
-import 'package:flutter_application_1/feature/cart/data/model/favorite_message.dart';
+import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
+import 'package:flutter_application_1/feature/cart/data/model/cart_message.dart';
 
 class CartRepository {
   final ApiConsumer api;
