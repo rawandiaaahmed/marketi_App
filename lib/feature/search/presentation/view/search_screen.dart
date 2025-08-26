@@ -14,7 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
   final TextEditingController searchController = TextEditingController();
-  final List<bool> favorites = []; 
+  final List<bool> favorites = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +35,7 @@ class SearchScreen extends StatelessWidget {
       ),
       body: InkWell(
         onTap: () {
-           context.pushName(
-                                  StringRoute.productDetails,
-                            
-                                );
+          context.pushName(StringRoute.productDetails);
         },
         child: Padding(
           padding: EdgeInsets.all(16.w),
@@ -77,8 +74,12 @@ class SearchScreen extends StatelessWidget {
                       return ProductLoadingWidget();
                     } else if (state is Searchsuccess) {
                       if (favorites.length < state.search.length) {
-                        favorites.addAll(List.filled(
-                            state.search.length - favorites.length, false));
+                        favorites.addAll(
+                          List.filled(
+                            state.search.length - favorites.length,
+                            false,
+                          ),
+                        );
                       }
                       return GridView.builder(
                         itemCount: state.search.length,
@@ -112,12 +113,14 @@ class SearchScreen extends StatelessWidget {
                                           width: 167.w,
                                           decoration: BoxDecoration(
                                             color: Colors.grey.shade200,
-                                            borderRadius:
-                                                BorderRadius.circular(5.r),
+                                            borderRadius: BorderRadius.circular(
+                                              5.r,
+                                            ),
                                           ),
                                           child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(5.r),
+                                            borderRadius: BorderRadius.circular(
+                                              5.r,
+                                            ),
                                             child: Image.network(
                                               product.thumbnail.toString(),
                                               width: double.infinity,
@@ -125,9 +128,10 @@ class SearchScreen extends StatelessWidget {
                                               fit: BoxFit.cover,
                                               errorBuilder:
                                                   (context, error, stackTrace) {
-                                                return Center(
-                                                    child: Icon(Icons.error));
-                                              },
+                                                    return Center(
+                                                      child: Icon(Icons.error),
+                                                    );
+                                                  },
                                             ),
                                           ),
                                         ),
@@ -137,8 +141,9 @@ class SearchScreen extends StatelessWidget {
                                         right: 8.w,
                                         child: InkWell(
                                           onTap: () {
-        
-                                            context.read<FavoriteCubit>().addFavorite(product.id);
+                                            context
+                                                .read<FavoriteCubit>()
+                                                .addFavorite(product.id);
                                           },
                                           child: Icon(
                                             favorites[index]
@@ -157,7 +162,8 @@ class SearchScreen extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.all(8.w),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -165,8 +171,8 @@ class SearchScreen extends StatelessWidget {
                                         children: [
                                           Text(
                                             '\$${product.price}',
-                                            style:
-                                                AppStyles.detailsproductLines2Style,
+                                            style: AppStyles
+                                                .detailsproductLines2Style,
                                           ),
                                           Row(
                                             children: [
@@ -185,26 +191,35 @@ class SearchScreen extends StatelessWidget {
                                         product.title,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: AppStyles.detailsproductLines2Style,
+                                        style:
+                                            AppStyles.detailsproductLines2Style,
                                       ),
                                     ],
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                   context.read<CartCubit>().addToCart(product.id);
+                                    context.read<CartCubit>().addToCart(
+                                      product.id,
+                                    );
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        left: 20.h, right: 20.h, bottom: 8.h),
+                                      left: 20.h,
+                                      right: 20.h,
+                                      bottom: 8.h,
+                                    ),
                                     child: Container(
                                       height: 30.h,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(14.r),
+                                        borderRadius: BorderRadius.circular(
+                                          14.r,
+                                        ),
                                         border: Border.all(
-                                            color: Colors.lightBlue.shade100),
+                                          color: Colors.lightBlue.shade100,
+                                        ),
                                       ),
                                       child: Center(
                                         child: Text(

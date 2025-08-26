@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/Router/route_string.dart';
-import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
+
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
 import 'package:flutter_application_1/feature/home/data/model/category_model.dart';

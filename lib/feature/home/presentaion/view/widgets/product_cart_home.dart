@@ -7,7 +7,7 @@ import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
 
 class ProductCardHome extends StatefulWidget {
-   ProductCardHome({
+  ProductCardHome({
     Key? key,
     required this.product,
     required this.onTap,
@@ -16,7 +16,7 @@ class ProductCardHome extends StatefulWidget {
     required this.onToggleFavorite,
   }) : super(key: key);
 
-  final ProductModel product;
+  final dynamic product;
   final VoidCallback onTap;
   final VoidCallback onAddToCart;
   final bool isFavorite;
@@ -46,7 +46,6 @@ class _ProductCardHomeState extends State<ProductCardHome> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          
             Expanded(
               child: Stack(
                 children: [
@@ -66,6 +65,29 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                       ),
                     ),
                   ),
+
+                  /// 🟥 أيقونة الخصم
+                  Positioned(
+                    top: 8.h,
+                    left: 8.w,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                      decoration: BoxDecoration(
+                        color: AppColors.lightBlue700,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Text(
+                        "${widget.product.discountPercentage.toStringAsFixed(0)}%",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+
+      
                   Positioned(
                     top: 8.h,
                     right: 8.w,
@@ -91,8 +113,12 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                         ),
                         padding: EdgeInsets.all(4.w),
                         child: Icon(
-                          widget.isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: widget.isFavorite ? Colors.red : AppColors.darkblue900,
+                          widget.isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: widget.isFavorite
+                              ? Colors.red
+                              : AppColors.darkblue900,
                           size: 20.sp,
                         ),
                       ),
@@ -101,6 +127,8 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                 ],
               ),
             ),
+
+  
             Padding(
               padding: EdgeInsets.all(8.w),
               child: Column(
@@ -109,12 +137,14 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('\$${widget.product.price}', style: AppStyles.detailsproductLines2Style),
+                      Text('\$${widget.product.price}',
+                          style: AppStyles.detailsproductLines2Style),
                       Row(
                         children: [
                           Image.asset(AssetManager.rate),
                           SizedBox(width: 4.w),
-                          Text(widget.product.rating.toString(), style: AppStyles.detailsproductLines2Style),
+                          Text(widget.product.rating.toString(),
+                              style: AppStyles.detailsproductLines2Style),
                         ],
                       ),
                     ],
@@ -135,11 +165,14 @@ class _ProductCardHomeState extends State<ProductCardHome> {
               onTap: widget.onAddToCart,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
-                margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
+                margin:
+                    EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
                 height: 30.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: _isPressedAdd ? AppColors.lightBlue100 : AppColors.white,
+                  color: _isPressedAdd
+                      ? AppColors.lightBlue100
+                      : AppColors.white,
                   borderRadius: BorderRadius.circular(14.r),
                   border: Border.all(color: AppColors.lightBlue100),
                 ),

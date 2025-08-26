@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
-import 'package:flutter_application_1/core/Router/route_string.dart';
+import 'package:flutter_application_1/core/theme/app_colors.dart';
+
 import 'package:flutter_application_1/core/theme/app_style.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_cubit.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_state.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +21,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void initState() {
     super.initState();
-  
     context.read<FavoriteCubit>().favorite();
   }
 
@@ -41,7 +40,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             ),
             SizedBox(width: 80.w),
             Text("Favorites", style: AppStyles.namehomeHeadLinesStyle),
-            
           ],
         ),
       ),
@@ -50,7 +48,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          
             SizedBox(height: 10.h),
             Text("All Favorites", style: AppStyles.onboarderHeadLinesStyle),
             SizedBox(height: 10.h),
@@ -100,7 +97,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       ),
                       itemBuilder: (context, index) {
                         final product = favoriteItems[index];
-                        bool isFavorite = true;
 
                         return Container(
                           width: 164.w,
@@ -140,6 +136,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         ),
                                       ),
                                     ),
+
+                                    // زرار الحذف
                                     Positioned(
                                       top: 8.h,
                                       right: 8.w,
@@ -170,6 +168,28 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         ),
                                       ),
                                     ),
+
+                          
+                                    if (product.discountPercentage > 0)
+                                      Positioned(
+                                        top: 8.h,
+                                        left: 8.w,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                                          decoration: BoxDecoration(
+                                            color:AppColors.lightBlue700,
+                                            borderRadius: BorderRadius.circular(8.r),
+                                          ),
+                                          child: Text(
+                                            "${product.discountPercentage.toStringAsFixed(0)}%",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                   ],
                                 ),
                               ),
@@ -182,14 +202,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                         '\$${product.price}', style: AppStyles.detailsproductLines2Style,
-                                         
+                                          '\$${product.price}',
+                                          style: AppStyles.detailsproductLines2Style,
                                         ),
                                         Row(
                                           children: [
                                             Image.asset(AssetManager.rate),
                                             SizedBox(width: 4.w),
-                                            Text("${product.rating}", style: AppStyles.detailsproductLines2Style),
+                                            Text("${product.rating}",
+                                                style: AppStyles.detailsproductLines2Style),
                                           ],
                                         ),
                                       ],
@@ -205,7 +226,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                context.read<CartCubit>().addToCart(product.id);
+                                  context.read<CartCubit>().addToCart(product.id);
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),

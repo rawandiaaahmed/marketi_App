@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/get_it/injection_sl.dart';
 import 'package:flutter_application_1/core/widget/bottom_bar.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/congrate_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/create_new_password.dart';
@@ -9,25 +10,28 @@ import 'package:flutter_application_1/feature/auth/presentation/view/forget_pass
 import 'package:flutter_application_1/feature/auth/presentation/view/login/sign_in_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/sign_up/sign_up_screen.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view/cart_screen.dart';
-
-import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
-
-import 'package:flutter_application_1/feature/home/presentaion/view/brands_view_screen.dart';
-
-import 'package:flutter_application_1/feature/home/presentaion/view/category_view_screen.dart';
-import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_screen.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/popular_product_view_screen.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view/product_cart_screen.dart';
+import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_screen.dart';
+import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/brands_view_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/category_view_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/home_screen.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view/popular_product_view_screen.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/product_by_brand_screen.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/product_by_category_screen.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/product_details_screen.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view/prifile_screen.dart';
-
 import 'package:flutter_application_1/feature/search/presentation/view/product_list_screen.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/home_screen.dart';
 import 'package:flutter_application_1/feature/search/presentation/view/search_screen.dart';
 import 'package:flutter_application_1/feature/onboarding/view/onboarding_screen.dart';
 import 'package:flutter_application_1/feature/splash/view/splash_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../feature/home/presentaion/view_model/cubit/home_cubit.dart';
+import '../../feature/profile/presentation/view_model/cubit/profile_cubit.dart';
+import '../../feature/search/presentation/view_model/cubit/search_cubit.dart';
+import '../../feature/cart/presentation/view_model/cubit/cart_cubit.dart';
+import '../../feature/favorite/presentation/view_model/cubit/favorite_cubit.dart';
 
 import 'base_routes.dart';
 import 'route_string.dart';
@@ -76,37 +80,26 @@ class AppRoutes {
           page: VerificationCodeScreen(),
           transitionType: RouteTransitionType.fade,
         );
-         case StringRoute.getcategorybyproduct:
-  final args = settings.arguments;
-  if (args != null && args is String) {
-    return BaseRoute(
-      page:ProductByCategoryScreen(category: args),
-      transitionType: RouteTransitionType.fade,
-    );
-  } else {
-    return BaseRoute(
-      page: const Scaffold(
-        body: Center(child: Text('Category not provided!')),
-      ),
-      transitionType: RouteTransitionType.fade,
-    );
-  }
-  case StringRoute.getbrandsbyproduct:
-  final args = settings.arguments;
-  if (args != null && args is String) {
-    return BaseRoute(
-      page:ProductByBrandScreen(brand: args),
-      transitionType: RouteTransitionType.fade,
-    );
-  } else {
-    return BaseRoute(
-      page: const Scaffold(
-        body: Center(child: Text('Category not provided!')),
-      ),
-      transitionType: RouteTransitionType.fade,
-    );
-  }
 
+      case StringRoute.getcategorybyproduct:
+        final args = settings.arguments;
+        if (args != null && args is String) {
+          return BaseRoute(
+            page: ProductByCategoryScreen(category: args),
+            transitionType: RouteTransitionType.fade,
+          );
+        }
+        return _errorPage("Category not provided!");
+
+      case StringRoute.getbrandsbyproduct:
+        final args = settings.arguments;
+        if (args != null && args is String) {
+          return BaseRoute(
+            page: ProductByBrandScreen(brand: args),
+            transitionType: RouteTransitionType.fade,
+          );
+        }
+        return _errorPage("Brand not provided!");
 
       case StringRoute.verfication2:
         final args = settings.arguments;
@@ -115,14 +108,8 @@ class AppRoutes {
             page: VerificationemailScreen(email: args),
             transitionType: RouteTransitionType.fade,
           );
-        } else {
-          return BaseRoute(
-            page: const Scaffold(
-              body: Center(child: Text('Email not provided!')),
-            ),
-            transitionType: RouteTransitionType.fade,
-          );
         }
+        return _errorPage("Email not provided!");
 
       case StringRoute.congrate:
         return BaseRoute(
@@ -137,18 +124,15 @@ class AppRoutes {
             page: CreateNewPassword(email: args),
             transitionType: RouteTransitionType.fade,
           );
-        } else {
-          return BaseRoute(
-            page: const Scaffold(
-              body: Center(child: Text('Email not provided!')),
-            ),
-            transitionType: RouteTransitionType.fade,
-          );
         }
+        return _errorPage("Email not provided!");
 
       case StringRoute.home:
         return BaseRoute(
-          page: HomeScreen(),
+          page: BlocProvider(
+            create: (_) => sl<HomeCubit>(),
+            child: HomeScreen(),
+          ),
           transitionType: RouteTransitionType.fade,
         );
 
@@ -160,7 +144,10 @@ class AppRoutes {
 
       case StringRoute.search:
         return BaseRoute(
-          page: SearchScreen(),
+          page: BlocProvider(
+            create: (_) => sl<SearchCubit>(),
+            child: SearchScreen(),
+          ),
           transitionType: RouteTransitionType.fade,
         );
 
@@ -178,10 +165,14 @@ class AppRoutes {
 
       case StringRoute.favorite:
         return BaseRoute(
-          page: FavoriteScreen(),
+          page: BlocProvider(
+            create: (_) => sl<FavoriteCubit>(),
+            child: FavoriteScreen(),
+          ),
           transitionType: RouteTransitionType.fade,
         );
-         case StringRoute.cartempty:
+
+      case StringRoute.cartempty:
         return BaseRoute(
           page: CartScreen(),
           transitionType: RouteTransitionType.fade,
@@ -201,37 +192,43 @@ class AppRoutes {
 
       case StringRoute.cart:
         return BaseRoute(
-          page: ProductCartScreen(),
+          page: BlocProvider(
+            create: (_) => sl<CartCubit>(),
+            child: ProductCartScreen(),
+          ),
           transitionType: RouteTransitionType.fade,
         );
 
-     case StringRoute.productDetails:
-  final args = settings.arguments;
-  if (args != null && args is ProductModel) {
-    return BaseRoute(
-      page: ProductDetailsScreen(product: args),
-      transitionType: RouteTransitionType.fade,
-    );
-  } else {
-    return BaseRoute(
-      page: const Scaffold(
-        body: Center(child: Text('Product not provided!')),
-      ),
-      transitionType: RouteTransitionType.fade,
-    );
-  }
+      case StringRoute.productDetails:
+        final args = settings.arguments;
+        if (args != null && args is ProductModel) {
+          return BaseRoute(
+            page: ProductDetailsScreen(product: args),
+            transitionType: RouteTransitionType.fade,
+          );
+        }
+        return _errorPage("Product not provided!");
+
       case StringRoute.profile:
         return BaseRoute(
-          page: ProfileScreen(),
+          page: BlocProvider(
+            create: (_) => sl<ProfileCubit>(),
+            child: ProfileScreen(),
+          ),
           transitionType: RouteTransitionType.fade,
         );
 
       default:
-        return BaseRoute(
-          page: const Scaffold(),
-          transitionType: RouteTransitionType.fade,
-        );
+        return _errorPage("Page not found!");
     }
   }
-}
 
+  static BaseRoute _errorPage(String message) {
+    return BaseRoute(
+      page: Scaffold(
+        body: Center(child: Text(message)),
+      ),
+      transitionType: RouteTransitionType.fade,
+    );
+  }
+}

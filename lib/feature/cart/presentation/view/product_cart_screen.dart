@@ -86,6 +86,11 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                     itemBuilder: (context, index) {
                       final product = cartItems[index];
 
+                      // نحسب السعر بعد الخصم
+                      final discountedPrice = (product.price -
+                          (product.price * (product.discountPercentage / 100)))
+                          .toStringAsFixed(2);
+
                       return Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(10.w),
@@ -104,7 +109,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                         ),
                         child: Row(
                           children: [
-              
+                            /// صورة المنتج
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8.r),
                               child: Image.network(
@@ -116,12 +121,12 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                             ),
                             SizedBox(width: 10.w),
 
-                  
+                            /// بيانات المنتج
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                        
+                                  /// العنوان + زرار الحذف
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -154,14 +159,8 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                               )
                                             ],
                                           ),
-                                          child: Row(
-                                            children: [
-                                              const Icon(Icons.delete,
-                                                  color: Colors.white, size: 18),
-                                              SizedBox(width: 2.w),
-                                             
-                                            ],
-                                          ),
+                                          child: const Icon(Icons.delete,
+                                              color: Colors.white, size: 18),
                                         ),
                                       ),
                                     ],
@@ -176,14 +175,34 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   SizedBox(height: 4.h),
-
-                      
+                        
                                   Row(
                                     children: [
                                       Text(
-                                        '\$${product.price}', style: AppStyles.detailsproductLines2Style,
+                                        '\$$discountedPrice',
+                                        style: AppStyles
+                                            .detailsproductLines2Style,
                                       ),
-                                      SizedBox(width: 12.w),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        '\$${product.price}',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        '-${product.discountPercentage}%',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: AppColors.lightBlue700,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const Spacer(),
                                       Image.asset(AssetManager.rate),
                                       SizedBox(width: 4.w),
                                       Text(

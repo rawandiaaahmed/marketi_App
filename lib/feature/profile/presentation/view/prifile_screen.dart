@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/Router/route_string.dart';
+import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,7 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-    
       context.read<ProfileCubit>().uploadImage(File(image.path));
     }
   }
@@ -204,7 +205,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         image: AssetManager.logout,
                         title: 'Log Out',
                         isDarkMode: isDarkMode,
-                        onTap: () {},
+                        onTap: () {
+                          context.pushName(StringRoute.signin);
+                        },
                       ),
                     ],
                   ),

@@ -30,6 +30,7 @@ abstract class StringRoute {
   static const String profile = 'profile';
    static const String getcategorybyproduct = 'getcategorybyproduct';
 static const String getbrandsbyproduct = 'getbrandsbyproduct';
+static const String filter = 'filter';
 
 
 }

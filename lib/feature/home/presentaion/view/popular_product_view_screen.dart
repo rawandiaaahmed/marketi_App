@@ -8,7 +8,7 @@ import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit
 import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_cubit.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_state.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/widgets/product_cart_home.dart';
-import 'package:flutter_application_1/feature/home/presentaion/view/widgets/search_home.dart';
+
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

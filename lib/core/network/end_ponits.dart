@@ -12,6 +12,7 @@ class EndPoint {
     static String postcart = "user/addCart";
     static String search = "home/productsFilter";
      static String deletecart = "user/deleteCart";
+     static String failtering = "home/productsFilter";
       static String getfavorite = "user/getFavorite";
        static String postfavorite = "user/addFavorite";
         static String deletefavorite = "user/deleteCart";
