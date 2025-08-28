@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
+
 class FavoriteResponse {
   final List<FavoriteModel> list;
 
@@ -5,7 +7,7 @@ class FavoriteResponse {
 
   factory FavoriteResponse.fromJson(Map<String, dynamic> json) {
     return FavoriteResponse(
-      list: (json['list'] as List)
+      list: (json['list'] as List? ?? [])
           .map((e) => FavoriteModel.fromJson(e))
           .toList(),
     );
@@ -69,30 +71,30 @@ class FavoriteModel {
 
   factory FavoriteModel.fromJson(Map<String, dynamic> json) {
     return FavoriteModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      category: json['category'],
-      price: (json['price'] as num).toDouble(),
-      discountPercentage: (json['discountPercentage'] as num).toDouble(),
-      rating: (json['rating'] as num).toDouble(),
-      stock: json['stock'],
-      tags: List<String>.from(json['tags']),
-      brand: json['brand'],
-      sku: json['sku'],
-      weight: json['weight'],
-      dimensions: CartDimensions.fromJson(json['dimensions']),
-      warrantyInformation: json['warrantyInformation'],
-      shippingInformation: json['shippingInformation'],
-      availabilityStatus: json['availabilityStatus'],
-      reviews: (json['reviews'] as List)
+      id: json['id'] ?? 0,
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      category: json['category'] ?? '',
+      price: (json['price'] ?? 0).toDouble(),
+      discountPercentage: (json['discountPercentage'] ?? 0).toDouble(),
+      rating: (json['rating'] ?? 0).toDouble(),
+      stock: json['stock'] ?? 0,
+      tags: List<String>.from(json['tags'] ?? []),
+      brand: json['brand'] ?? '',
+      sku: json['sku'] ?? '',
+      weight: json['weight'] ?? 0,
+      dimensions: CartDimensions.fromJson(json['dimensions'] ?? {}),
+      warrantyInformation: json['warrantyInformation'] ?? '',
+      shippingInformation: json['shippingInformation'] ?? '',
+      availabilityStatus: json['availabilityStatus'] ?? '',
+      reviews: (json['reviews'] as List? ?? [])
           .map((e) => CartReview.fromJson(e))
           .toList(),
-      returnPolicy: json['returnPolicy'],
-      minimumOrderQuantity: json['minimumOrderQuantity'],
-      meta: CartMeta.fromJson(json['meta']),
-      images: List<String>.from(json['images']),
-      thumbnail: json['thumbnail'],
+      returnPolicy: json['returnPolicy'] ?? '',
+      minimumOrderQuantity: json['minimumOrderQuantity'] ?? 0,
+      meta: CartMeta.fromJson(json['meta'] ?? {}),
+      images: List<String>.from(json['images'] ?? []),
+      thumbnail: json['thumbnail'] ?? '',
     );
   }
 
@@ -120,100 +122,6 @@ class FavoriteModel {
       'meta': meta.toJson(),
       'images': images,
       'thumbnail': thumbnail,
-    };
-  }
-}class CartDimensions {
-  final double width;
-  final double height;
-  final double depth;
-
-  CartDimensions({
-    required this.width,
-    required this.height,
-    required this.depth,
-  });
-
-  factory CartDimensions.fromJson(Map<String, dynamic> json) {
-    return CartDimensions(
-      width: (json['width'] as num).toDouble(),
-      height: (json['height'] as num).toDouble(),
-      depth: (json['depth'] as num).toDouble(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'width': width,
-      'height': height,
-      'depth': depth,
-    };
-  }
-}
-
-class CartReview {
-  final int rating;
-  final String comment;
-  final String date;
-  final String reviewerName;
-  final String reviewerEmail;
-
-  CartReview({
-    required this.rating,
-    required this.comment,
-    required this.date,
-    required this.reviewerName,
-    required this.reviewerEmail,
-  });
-
-  factory CartReview.fromJson(Map<String, dynamic> json) {
-    return CartReview(
-      rating: json['rating'],
-      comment: json['comment'],
-      date: json['date'],
-      reviewerName: json['reviewerName'],
-      reviewerEmail: json['reviewerEmail'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'rating': rating,
-      'comment': comment,
-      'date': date,
-      'reviewerName': reviewerName,
-      'reviewerEmail': reviewerEmail,
-    };
-  }
-}
-
-class CartMeta {
-  final String createdAt;
-  final String updatedAt;
-  final String barcode;
-  final String qrCode;
-
-  CartMeta({
-    required this.createdAt,
-    required this.updatedAt,
-    required this.barcode,
-    required this.qrCode,
-  });
-
-  factory CartMeta.fromJson(Map<String, dynamic> json) {
-    return CartMeta(
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      barcode: json['barcode'],
-      qrCode: json['qrCode'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'barcode': barcode,
-      'qrCode': qrCode,
     };
   }
 }

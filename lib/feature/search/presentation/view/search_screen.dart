@@ -33,65 +33,68 @@ class SearchScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: InkWell(
-        onTap: () {
-          context.pushName(StringRoute.productDetails);
-        },
-        child: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.search),
-                    SizedBox(width: 8.w),
-                    Expanded(
-                      child: TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          hintText: "What are you looking for?",
-                          border: InputBorder.none,
-                        ),
-                        onSubmitted: (value) {
-                          context.read<SearchCubit>().search(value);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+      body: Padding(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: Colors.grey.shade300),
               ),
-              SizedBox(height: 20.h),
-              Expanded(
-                child: BlocBuilder<SearchCubit, SearchState>(
-                  builder: (context, state) {
-                    if (state is SearchLoading) {
-                      return ProductLoadingWidget();
-                    } else if (state is Searchsuccess) {
-                      if (favorites.length < state.search.length) {
-                        favorites.addAll(
-                          List.filled(
-                            state.search.length - favorites.length,
-                            false,
-                          ),
-                        );
-                      }
-                      return GridView.builder(
-                        itemCount: state.search.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10.h,
-                          crossAxisSpacing: 5.w,
-                          childAspectRatio: 0.9,
+              child: Row(
+                children: [
+                  Icon(Icons.search),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: "What are you looking for?",
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted: (value) {
+                        context.read<SearchCubit>().search(value);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Expanded(
+              child: BlocBuilder<SearchCubit, SearchState>(
+                builder: (context, state) {
+                  if (state is SearchLoading) {
+                    return ProductLoadingWidget();
+                  } else if (state is Searchsuccess) {
+                    if (favorites.length < state.search.length) {
+                      favorites.addAll(
+                        List.filled(
+                          state.search.length - favorites.length,
+                          false,
                         ),
-                        itemBuilder: (context, index) {
-                          final product = state.search[index];
-                          return Container(
+                      );
+                    }
+                    return GridView.builder(
+                      itemCount: state.search.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10.h,
+                        crossAxisSpacing: 5.w,
+                        childAspectRatio: 0.9,
+                      ),
+                      itemBuilder: (context, index) {
+                        final product = state.search[index];
+                        return GestureDetector(
+                          onTap: () {
+                            context.pushName(
+                              StringRoute.detalsSearch,
+                              arguments: product,
+                            );
+                          },
+                          child: Container(
                             width: 164.w,
                             height: 200.h,
                             margin: EdgeInsets.only(right: 10.w),
@@ -128,10 +131,10 @@ class SearchScreen extends StatelessWidget {
                                               fit: BoxFit.cover,
                                               errorBuilder:
                                                   (context, error, stackTrace) {
-                                                    return Center(
-                                                      child: Icon(Icons.error),
-                                                    );
-                                                  },
+                                                return Center(
+                                                  child: Icon(Icons.error),
+                                                );
+                                              },
                                             ),
                                           ),
                                         ),
@@ -232,18 +235,18 @@ class SearchScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          );
-                        },
-                      );
-                    } else if (state is SearchFailuer) {
-                      return Center(child: Text("Error: ${state.errMessage}"));
-                    }
-                    return Center(child: Text("Type something to search"));
-                  },
-                ),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (state is SearchFailuer) {
+                    return Center(child: Text("Error: ${state.errMessage}"));
+                  }
+                  return Center(child: Text("Type something to search"));
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

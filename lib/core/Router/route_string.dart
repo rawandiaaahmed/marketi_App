@@ -9,8 +9,9 @@ abstract class StringRoute {
 
   static const String verfication = 'verfication';
   static const String splash = 'Splash';
-  
- 
+  static const String detalscart = 'detalscart';
+ static const String detalsSearch = 'detalsSearch';
+ static const String detalsFavorite = 'detalsFavorite';
     static const String verfication2 = 'verfication2';
       static const String congrate = 'congrate';
         static const String createnewPassword = 'createnewPassword';

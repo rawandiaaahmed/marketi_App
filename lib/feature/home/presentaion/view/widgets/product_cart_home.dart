@@ -66,7 +66,7 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                     ),
                   ),
 
-                  /// 🟥 أيقونة الخصم
+            
                   Positioned(
                     top: 8.h,
                     left: 8.w,

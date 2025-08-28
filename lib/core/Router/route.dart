@@ -9,8 +9,12 @@ import 'package:flutter_application_1/feature/auth/presentation/view/forget_pass
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/verification_email_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/login/sign_in_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/sign_up/sign_up_screen.dart';
+import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view/cart_screen.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view/product_cart_screen.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view/widgets/cart_details_screen.dart';
+import 'package:flutter_application_1/feature/favorite/data/model/favorite_model.dart';
+import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_details_screen.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_screen.dart';
 import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/brands_view_screen.dart';
@@ -21,7 +25,9 @@ import 'package:flutter_application_1/feature/home/presentaion/view/product_by_b
 import 'package:flutter_application_1/feature/home/presentaion/view/product_by_category_screen.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view/product_details_screen.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view/prifile_screen.dart';
+import 'package:flutter_application_1/feature/search/data/model/search_model.dart';
 import 'package:flutter_application_1/feature/search/presentation/view/product_list_screen.dart';
+import 'package:flutter_application_1/feature/search/presentation/view/search_details.dart';
 import 'package:flutter_application_1/feature/search/presentation/view/search_screen.dart';
 import 'package:flutter_application_1/feature/onboarding/view/onboarding_screen.dart';
 import 'package:flutter_application_1/feature/splash/view/splash_screen.dart';
@@ -129,8 +135,13 @@ class AppRoutes {
 
       case StringRoute.home:
         return BaseRoute(
-          page: BlocProvider(
-            create: (_) => sl<HomeCubit>(),
+          page: MultiBlocProvider(
+            providers: [
+        BlocProvider(create: (_) => sl<SearchCubit>()),
+        BlocProvider(create: (_) => sl<HomeCubit>()),
+          BlocProvider(create: (_) => sl<ProfileCubit>()),
+      ],
+           
             child: HomeScreen(),
           ),
           transitionType: RouteTransitionType.fade,
@@ -201,7 +212,7 @@ class AppRoutes {
 
       case StringRoute.productDetails:
         final args = settings.arguments;
-        if (args != null && args is ProductModel) {
+        if (args != null && args is ProductModel ) {
           return BaseRoute(
             page: ProductDetailsScreen(product: args),
             transitionType: RouteTransitionType.fade,
@@ -209,6 +220,36 @@ class AppRoutes {
         }
         return _errorPage("Product not provided!");
 
+
+ case StringRoute.detalsSearch:
+        final args = settings.arguments;
+        if (args != null && args is ProductSearch ) {
+          return BaseRoute(
+            page: SearchDetailsScreen(search: args),
+            transitionType: RouteTransitionType.fade,
+          );
+        }
+        return _errorPage("Product not provided!");
+         case StringRoute.detalsFavorite:
+        final args = settings.arguments;
+        if (args != null && args is FavoriteModel ) {
+          return BaseRoute(
+            page: FavoriteDetailsScreen(favorite: args),
+            transitionType: RouteTransitionType.fade,
+          );
+        }
+        return _errorPage("Product not provided!");
+
+
+        case StringRoute.detalscart:
+        final args = settings.arguments;
+        if (args != null && args is CartModel ) {
+          return BaseRoute(
+            page: cartDetailsScreen(cart: args),
+            transitionType: RouteTransitionType.fade,
+          );
+        }
+        return _errorPage("Product not provided!");
       case StringRoute.profile:
         return BaseRoute(
           page: BlocProvider(
