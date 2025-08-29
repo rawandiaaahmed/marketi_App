@@ -3,9 +3,9 @@ import 'package:flutter_application_1/core/get_it/injection_sl.dart';
 import 'package:flutter_application_1/core/widget/bottom_bar.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/congrate_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/create_new_password.dart';
-import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/forget_password_screen.dart';
+
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/forgot_password_email_screen.dart';
-import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/verification_code_screen.dart';
+
 import 'package:flutter_application_1/feature/auth/presentation/view/forget_password/verification_email_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/login/sign_in_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/sign_up/sign_up_screen.dart';
@@ -69,11 +69,7 @@ class AppRoutes {
           transitionType: RouteTransitionType.fade,
         );
 
-      case StringRoute.forget:
-        return BaseRoute(
-          page: ForgotPasswordScreen(),
-          transitionType: RouteTransitionType.fade,
-        );
+     
 
       case StringRoute.forget2:
         return BaseRoute(
@@ -81,11 +77,7 @@ class AppRoutes {
           transitionType: RouteTransitionType.fade,
         );
 
-      case StringRoute.verfication:
-        return BaseRoute(
-          page: VerificationCodeScreen(),
-          transitionType: RouteTransitionType.fade,
-        );
+     
 
       case StringRoute.getcategorybyproduct:
         final args = settings.arguments;

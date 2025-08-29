@@ -198,7 +198,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                             style: AppStyles
                                                 .detailsproductLines2Style,
                                           ),
-                                          SizedBox(width: 8.w),
+                                          SizedBox(width: 4.w),
                                           Text(
                                             '\$${product.price}',
                                             style: TextStyle(
@@ -208,7 +208,7 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
                                                   TextDecoration.lineThrough,
                                             ),
                                           ),
-                                          SizedBox(width: 8.w),
+                                          SizedBox(width: 4.w),
                                           Text(
                                             '-${product.discountPercentage}%',
                                             style: TextStyle(

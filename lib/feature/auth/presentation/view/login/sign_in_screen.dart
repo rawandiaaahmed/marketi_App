@@ -119,7 +119,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.pushName(StringRoute.forget);
+                      context.pushName(StringRoute.forget2);
                     },
                     child: Text(
                       "Forgot Password?",
