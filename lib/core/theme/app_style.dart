@@ -83,4 +83,14 @@ class AppStyles {
     fontSize: 14.sp,
     color: AppColors.lightBlue100,
   );
+  static TextStyle descriptionHeadLinesStyle = TextStyle(
+    color: AppColors.darkblue900,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+  );
+  static TextStyle profileLines2Style = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,
+    color: AppColors.darkblue900,
+  );
 }

@@ -9,6 +9,7 @@ import 'package:flutter_application_1/feature/auth/presentation/view/widgets/cus
 import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_text_field.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/state_cubit.dart';
+import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -154,6 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   if (state is SignUpSuccess) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(state.message)));
+                        context.read<HomeCubit>().getProduct();
                     context.pushName(StringRoute.bottomBar);
                   } else if (state is SignUpFailure) {
                     ScaffoldMessenger.of(context).showSnackBar(
