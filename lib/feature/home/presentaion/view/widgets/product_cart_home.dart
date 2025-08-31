@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
@@ -66,12 +66,14 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                     ),
                   ),
 
-            
                   Positioned(
                     top: 8.h,
                     left: 8.w,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 2.h,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.lightBlue700,
                         borderRadius: BorderRadius.circular(8.r),
@@ -87,7 +89,6 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                     ),
                   ),
 
-      
                   Positioned(
                     top: 8.h,
                     right: 8.w,
@@ -128,7 +129,6 @@ class _ProductCardHomeState extends State<ProductCardHome> {
               ),
             ),
 
-  
             Padding(
               padding: EdgeInsets.all(8.w),
               child: Column(
@@ -137,14 +137,18 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('\$${widget.product.price}',
-                          style: AppStyles.detailsproductLines2Style),
+                      Text(
+                        '\$${widget.product.price}',
+                        style: AppStyles.detailsproductLines2Style,
+                      ),
                       Row(
                         children: [
                           Image.asset(AssetManager.rate),
                           SizedBox(width: 4.w),
-                          Text(widget.product.rating.toString(),
-                              style: AppStyles.detailsproductLines2Style),
+                          Text(
+                            widget.product.rating.toString(),
+                            style: AppStyles.detailsproductLines2Style,
+                          ),
                         ],
                       ),
                     ],
@@ -165,8 +169,7 @@ class _ProductCardHomeState extends State<ProductCardHome> {
               onTap: widget.onAddToCart,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
-                margin:
-                    EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
+                margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
                 height: 30.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -177,10 +180,7 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                   border: Border.all(color: AppColors.lightBlue100),
                 ),
                 child: Center(
-                  child: Text(
-                    "Add",
-                    style: AppStyles.producLines2Style,
-                  ),
+                  child: Text("Add", style: AppStyles.producLines2Style),
                 ),
               ),
             ),

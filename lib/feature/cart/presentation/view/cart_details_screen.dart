@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
-import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +11,7 @@ import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
 
 class cartDetailsScreen extends StatefulWidget {
-  const cartDetailsScreen({Key? key, required this.cart})
-    : super(key: key);
+  const cartDetailsScreen({Key? key, required this.cart}) : super(key: key);
 
   final CartModel cart;
 
@@ -107,7 +106,7 @@ class _cartDetailsScreenState extends State<cartDetailsScreen> {
                 Row(
                   children: [
                     ...List.generate(
-                     cart.rating.floor(),
+                      cart.rating.floor(),
                       (index) => const Icon(Icons.star, color: AppColors.black),
                     ),
                     const Icon(
@@ -128,7 +127,6 @@ class _cartDetailsScreenState extends State<cartDetailsScreen> {
             ),
             SizedBox(height: 12.h),
 
-          
             Text(
               cart.title,
               style: AppStyles.namehomeHeadLinesStyle.copyWith(fontSize: 18.sp),
@@ -181,8 +179,7 @@ class _cartDetailsScreenState extends State<cartDetailsScreen> {
                     ),
                   ),
                   onPressed: () {
-               context.read<CartCubit>().addToCart(cart.id);
-
+                    context.read<CartCubit>().addToCart(cart.id);
                   },
                   child: Row(
                     children: [

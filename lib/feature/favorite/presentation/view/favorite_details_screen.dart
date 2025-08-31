@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
+
 import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
 import 'package:flutter_application_1/feature/favorite/data/model/favorite_model.dart';
 
@@ -108,7 +108,7 @@ class _FavoritDetailsScreenState extends State<FavoriteDetailsScreen> {
                 Row(
                   children: [
                     ...List.generate(
-                     cart.rating.floor(),
+                      cart.rating.floor(),
                       (index) => const Icon(Icons.star, color: AppColors.black),
                     ),
                     const Icon(
@@ -129,7 +129,6 @@ class _FavoritDetailsScreenState extends State<FavoriteDetailsScreen> {
             ),
             SizedBox(height: 12.h),
 
-          
             Text(
               cart.title,
               style: AppStyles.namehomeHeadLinesStyle.copyWith(fontSize: 18.sp),
@@ -182,8 +181,7 @@ class _FavoritDetailsScreenState extends State<FavoriteDetailsScreen> {
                     ),
                   ),
                   onPressed: () {
-               context.read<CartCubit>().addToCart(cart.id);
-
+                    context.read<CartCubit>().addToCart(cart.id);
                   },
                   child: Row(
                     children: [

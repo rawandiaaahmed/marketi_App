@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/Router/route_string.dart';
+
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
-import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
-import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/widget/louding_cubit.dart';
-import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
-import 'package:flutter_application_1/feature/favorite/presentation/view_model/cubit/favorite_cubit.dart';
 import 'package:flutter_application_1/feature/search/presentation/view_model/cubit/search_cubit.dart';
+import 'package:flutter_application_1/feature/search/presentation/view/widgets/search_result_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,6 +33,7 @@ class SearchScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.w),
         child: Column(
           children: [
+            // 🔎 صندوق البحث
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               decoration: BoxDecoration(
@@ -62,7 +59,10 @@ class SearchScreen extends StatelessWidget {
                 ],
               ),
             ),
+
             SizedBox(height: 20.h),
+
+            // 🖼️ النتائج
             Expanded(
               child: BlocBuilder<SearchCubit, SearchState>(
                 builder: (context, state) {
@@ -87,155 +87,12 @@ class SearchScreen extends StatelessWidget {
                       ),
                       itemBuilder: (context, index) {
                         final product = state.search[index];
-                        return GestureDetector(
-                          onTap: () {
-                            context.pushName(
-                              StringRoute.detalsSearch,
-                              arguments: product,
-                            );
+                        return SearchResultItem(
+                          product: product,
+                          isFavorite: favorites[index],
+                          onFavoriteToggle: () {
+                            favorites[index] = !favorites[index];
                           },
-                          child: Container(
-                            width: 164.w,
-                            height: 200.h,
-                            margin: EdgeInsets.only(right: 10.w),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.r),
-                              border: Border.all(color: Colors.grey.shade300),
-                              color: Colors.white,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Stack(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.h),
-                                        child: Container(
-                                          height: 96.h,
-                                          width: 167.w,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade200,
-                                            borderRadius: BorderRadius.circular(
-                                              5.r,
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              5.r,
-                                            ),
-                                            child: Image.network(
-                                              product.thumbnail.toString(),
-                                              width: double.infinity,
-                                              height: 120.h,
-                                              fit: BoxFit.cover,
-                                              errorBuilder:
-                                                  (context, error, stackTrace) {
-                                                return Center(
-                                                  child: Icon(Icons.error),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 8.h,
-                                        right: 8.w,
-                                        child: InkWell(
-                                          onTap: () {
-                                            context
-                                                .read<FavoriteCubit>()
-                                                .addFavorite(product.id);
-                                          },
-                                          child: Icon(
-                                            favorites[index]
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color: favorites[index]
-                                                ? Colors.black
-                                                : AppColors.darkblue900,
-                                            size: 22.sp,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '\$${product.price}',
-                                            style: AppStyles
-                                                .detailsproductLines2Style,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Image.asset(AssetManager.rate),
-                                              SizedBox(width: 4.w),
-                                              Text(
-                                                "${product.rating}",
-                                                style: AppStyles
-                                                    .detailsproductLines2Style,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        product.title,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            AppStyles.detailsproductLines2Style,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    context.read<CartCubit>().addToCart(
-                                      product.id,
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 20.h,
-                                      right: 20.h,
-                                      bottom: 8.h,
-                                    ),
-                                    child: Container(
-                                      height: 30.h,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          14.r,
-                                        ),
-                                        border: Border.all(
-                                          color: Colors.lightBlue.shade100,
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "Add",
-                                          style: AppStyles.producLines2Style,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         );
                       },
                     );

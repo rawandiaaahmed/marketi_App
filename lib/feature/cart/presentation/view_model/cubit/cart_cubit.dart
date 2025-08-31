@@ -1,7 +1,5 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
-import 'package:meta/meta.dart';
 
 import 'package:flutter_application_1/feature/cart/data/repo/cart_repo.dart';
 
@@ -28,7 +26,8 @@ class CartCubit extends Cubit<CartState> {
       (messagere) => emit(AddCartSuccess(message: messagere.message)),
     );
   }
-   deleteFromCart(int productId) async {
+
+  deleteFromCart(int productId) async {
     emit(DeleteCartLoading());
     final response = await cartRepository.deleteFromCart(productId);
     response.fold(

@@ -10,9 +10,10 @@ import 'package:flutter_application_1/feature/auth/presentation/view/forget_pass
 import 'package:flutter_application_1/feature/auth/presentation/view/login/sign_in_screen.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/sign_up/sign_up_screen.dart';
 import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
-import 'package:flutter_application_1/feature/cart/presentation/view/cart_screen.dart';
+import 'package:flutter_application_1/feature/cart/presentation/view/cart_details_screen.dart';
+
 import 'package:flutter_application_1/feature/cart/presentation/view/product_cart_screen.dart';
-import 'package:flutter_application_1/feature/cart/presentation/view/widgets/cart_details_screen.dart';
+
 import 'package:flutter_application_1/feature/favorite/data/model/favorite_model.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_details_screen.dart';
 import 'package:flutter_application_1/feature/favorite/presentation/view/favorite_screen.dart';
@@ -69,15 +70,11 @@ class AppRoutes {
           transitionType: RouteTransitionType.fade,
         );
 
-     
-
       case StringRoute.forget2:
         return BaseRoute(
           page: ForgotPasswordEmailScreen(),
           transitionType: RouteTransitionType.fade,
         );
-
-     
 
       case StringRoute.getcategorybyproduct:
         final args = settings.arguments;
@@ -129,11 +126,11 @@ class AppRoutes {
         return BaseRoute(
           page: MultiBlocProvider(
             providers: [
-        BlocProvider(create: (_) => sl<SearchCubit>()),
-        BlocProvider(create: (_) => sl<HomeCubit>()),
-          BlocProvider(create: (_) => sl<ProfileCubit>()),
-      ],
-           
+              BlocProvider(create: (_) => sl<SearchCubit>()),
+              BlocProvider(create: (_) => sl<HomeCubit>()),
+              BlocProvider(create: (_) => sl<ProfileCubit>()),
+            ],
+
             child: HomeScreen(),
           ),
           transitionType: RouteTransitionType.fade,
@@ -175,12 +172,6 @@ class AppRoutes {
           transitionType: RouteTransitionType.fade,
         );
 
-      case StringRoute.cartempty:
-        return BaseRoute(
-          page: CartScreen(),
-          transitionType: RouteTransitionType.fade,
-        );
-
       case StringRoute.category:
         return BaseRoute(
           page: CategoryScreen(),
@@ -204,7 +195,7 @@ class AppRoutes {
 
       case StringRoute.productDetails:
         final args = settings.arguments;
-        if (args != null && args is ProductModel ) {
+        if (args != null && args is ProductModel) {
           return BaseRoute(
             page: ProductDetailsScreen(product: args),
             transitionType: RouteTransitionType.fade,
@@ -212,19 +203,18 @@ class AppRoutes {
         }
         return _errorPage("Product not provided!");
 
-
- case StringRoute.detalsSearch:
+      case StringRoute.detalsSearch:
         final args = settings.arguments;
-        if (args != null && args is ProductSearch ) {
+        if (args != null && args is ProductSearch) {
           return BaseRoute(
             page: SearchDetailsScreen(search: args),
             transitionType: RouteTransitionType.fade,
           );
         }
         return _errorPage("Product not provided!");
-         case StringRoute.detalsFavorite:
+      case StringRoute.detalsFavorite:
         final args = settings.arguments;
-        if (args != null && args is FavoriteModel ) {
+        if (args != null && args is FavoriteModel) {
           return BaseRoute(
             page: FavoriteDetailsScreen(favorite: args),
             transitionType: RouteTransitionType.fade,
@@ -232,10 +222,9 @@ class AppRoutes {
         }
         return _errorPage("Product not provided!");
 
-
-        case StringRoute.detalscart:
+      case StringRoute.detalscart:
         final args = settings.arguments;
-        if (args != null && args is CartModel ) {
+        if (args != null && args is CartModel) {
           return BaseRoute(
             page: cartDetailsScreen(cart: args),
             transitionType: RouteTransitionType.fade,
@@ -258,9 +247,7 @@ class AppRoutes {
 
   static BaseRoute _errorPage(String message) {
     return BaseRoute(
-      page: Scaffold(
-        body: Center(child: Text(message)),
-      ),
+      page: Scaffold(body: Center(child: Text(message))),
       transitionType: RouteTransitionType.fade,
     );
   }

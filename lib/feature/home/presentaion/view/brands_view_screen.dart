@@ -36,7 +36,9 @@ class _BrandsScreenState extends State<BrandsScreen> {
     } else {
       setState(() {
         filteredbrands = allbrands
-            .where((cat) => cat.name.toLowerCase().contains(query.toLowerCase()))
+            .where(
+              (cat) => cat.name.toLowerCase().contains(query.toLowerCase()),
+            )
             .toList();
       });
     }
@@ -51,8 +53,9 @@ class _BrandsScreenState extends State<BrandsScreen> {
           current is GetBrandFailure,
       listener: (context, state) {
         if (state is GetBrandFailure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.errMessage)));
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errMessage)));
         }
         if (state is GetBrandSuccess) {
           // خزّن البيانات هنا بدل build
@@ -76,7 +79,10 @@ class _BrandsScreenState extends State<BrandsScreen> {
                   child: Image.asset(AssetManager.back),
                 ),
                 SizedBox(width: 90.w),
-                Text(AppStrings.brands, style: AppStyles.namehomeHeadLinesStyle),
+                Text(
+                  AppStrings.brands,
+                  style: AppStyles.namehomeHeadLinesStyle,
+                ),
               ],
             ),
           ),
@@ -85,15 +91,15 @@ class _BrandsScreenState extends State<BrandsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchHome(
-                  onChanged: (query) => filterbrands(query),
+                SearchHome(onChanged: (query) => filterbrands(query)),
+                SizedBox(height: 10.h),
+                Text(
+                  AppStrings.brand,
+                  style: AppStyles.onboarderHeadLinesStyle,
                 ),
                 SizedBox(height: 10.h),
-                Text(AppStrings.brand, style: AppStyles.onboarderHeadLinesStyle),
-                SizedBox(height: 10.h),
 
-                if (state is GetBrandLoading)
-                  const ProductLoadingWidget(),
+                if (state is GetBrandLoading) const ProductLoadingWidget(),
 
                 if (state is GetBrandSuccess)
                   Expanded(
@@ -102,8 +108,8 @@ class _BrandsScreenState extends State<BrandsScreen> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: 10.h,
-                        crossAxisSpacing: 20.w,
-                        childAspectRatio: 1.0,
+                        crossAxisSpacing: 10.w,
+                        childAspectRatio: 1.1,
                       ),
                       itemBuilder: (context, index) {
                         final brand = filteredbrands[index];
