@@ -32,17 +32,16 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-      
         BlocListener<HomeCubit, HomeState>(
           listener: (context, state) {
             if (state is GetProductFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.errMessage)));
             }
           },
         ),
-      
+
         BlocListener<CartCubit, CartState>(
           listener: (context, state) {
             if (state is AddCartSuccess) {
@@ -53,30 +52,30 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
                 ),
               );
             } else if (state is CartFailure) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+            }
+          },
+        ),
+        BlocListener<FavoriteCubit, FavoriteState>(
+          listener: (context, state) {
+            if (state is AddFavoriteSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
+                const SnackBar(
+                  content: Text("Added to favorites successfully ⭐"),
+                ),
+              );
+            } else if (state is FavoriteFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errMessage),
+                  backgroundColor: Colors.red,
+                ),
               );
             }
           },
         ),
-         BlocListener<FavoriteCubit, FavoriteState>(
-      listener: (context, state) {
-        if (state is AddFavoriteSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Added to favorites successfully ⭐"),
-            ),
-          );
-        } else if (state is FavoriteFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errMessage),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      },
-    ),
       ],
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
@@ -98,7 +97,6 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
                     style: AppStyles.namehomeHeadLinesStyle,
                   ),
                   const Spacer(),
-                 
                 ],
               ),
             ),
@@ -108,57 +106,66 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-   
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: Colors.grey.shade300),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(AssetManager.search),
-            SizedBox(width: 8.w),
-            Expanded(
-              child: Text(
-                "What are you looking for ?",
-                style: AppStyles.searchLines2Style,
-              ),
-            ),
-            Image.asset(AssetManager.searchFilter),
-          ],
-        ),
-      ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4.w,
+                        vertical: 4.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(AssetManager.search),
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: Text(
+                              "What are you looking for ?",
+                              style: AppStyles.searchLines2Style,
+                            ),
+                          ),
+                          Image.asset(AssetManager.searchFilter),
+                        ],
+                      ),
+                    ),
                   ),
                   SizedBox(height: 10.h),
-                  Text("All products", style: AppStyles.onboarderHeadLinesStyle),
+                  Text(
+                    "All products",
+                    style: AppStyles.onboarderHeadLinesStyle,
+                  ),
                   SizedBox(height: 10.h),
-                  if (state is GetProductLoading)
-              ProductLoadingWidget(),
+                  if (state is GetProductLoading) ProductLoadingWidget(),
                   if (state is GetProductSuccess)
                     Expanded(
                       child: NotificationListener<ScrollNotification>(
                         onNotification: (ScrollNotification notification) {
                           if (notification.metrics.pixels >=
                               notification.metrics.maxScrollExtent) {
-                            context.read<HomeCubit>().getProduct(isLoadMore: true);
+                            context.read<HomeCubit>().getProduct(
+                              isLoadMore: true,
+                            );
                           }
                           return true;
                         },
                         child: GridView.builder(
                           itemCount: state.product.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10.h,
-                            crossAxisSpacing: 5.w,
-                            childAspectRatio: 0.9,
-                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10.h,
+                                crossAxisSpacing: 5.w,
+                                childAspectRatio: 0.9,
+                              ),
                           itemBuilder: (context, index) {
                             final product = state.product[index];
                             return ProductCardHome(
                               product: product,
-                              isFavorite: context.read<HomeCubit>().isFavorite(product),
+                              isFavorite: context.read<HomeCubit>().isFavorite(
+                                product,
+                              ),
                               onTap: () {
                                 context.pushName(
                                   StringRoute.productDetails,
@@ -169,7 +176,9 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
                                 context.read<CartCubit>().addToCart(product.id);
                               },
                               onToggleFavorite: () {
-                                context.read<FavoriteCubit>().addFavorite(product.id);
+                                context.read<FavoriteCubit>().addFavorite(
+                                  product.id,
+                                );
                               },
                             );
                           },

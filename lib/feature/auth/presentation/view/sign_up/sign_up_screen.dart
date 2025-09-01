@@ -5,7 +5,7 @@ import 'package:flutter_application_1/core/constants/validator.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_shere_widget.dart';
+
 import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_text_field.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/state_cubit.dart';
@@ -26,7 +26,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   @override
@@ -144,22 +145,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               validator: Validators.validatePassword,
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 20.h),
 
-            
             SizedBox(
               width: double.infinity,
               height: 50.h,
               child: BlocConsumer<UserCubit, UserState>(
                 listener: (context, state) {
                   if (state is SignUpSuccess) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.message)));
-                        context.read<HomeCubit>().getProduct();
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                    context.read<HomeCubit>().getProduct();
                     context.pushName(StringRoute.bottomBar);
                   } else if (state is SignUpFailure) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.errMessage)));
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.errMessage)));
                   }
                 },
                 builder: (context, state) {
@@ -183,16 +185,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         confirmPassword: confirmPasswordController.text,
                       );
                     },
-                    child: Text("Sign Up",
-                        style: AppStyles.primaryHeadLinesStyle),
+                    child: Text(
+                      "Sign Up",
+                      style: AppStyles.primaryHeadLinesStyle,
+                    ),
                   );
                 },
               ),
             ),
 
             SizedBox(height: 20.h),
-            CustomShereWidget(),
-            SizedBox(height: 30.h),
           ],
         ),
       ),

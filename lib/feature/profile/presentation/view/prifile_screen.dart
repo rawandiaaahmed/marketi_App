@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
-import 'package:flutter_application_1/core/helper/cache_helper.dart';
+
 import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
@@ -164,7 +164,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: 'Log Out',
                         isDarkMode: isDarkMode,
                         onTap: () async {
-                          await CacheHelper().removeData(key: 'token');
                           context.pushName(StringRoute.signin);
                         },
                       ),

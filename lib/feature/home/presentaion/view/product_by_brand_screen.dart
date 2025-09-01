@@ -32,10 +32,6 @@ class ProductByBrandScreen extends StatelessWidget {
             SizedBox(width: 84.w),
             Text(AppStrings.brands, style: AppStyles.namehomeHeadLinesStyle),
             const Spacer(),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage(AssetManager.homeimage),
-            ),
           ],
         ),
       ),

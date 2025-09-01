@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
+import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/widget/louding_cubit.dart';
 import 'package:flutter_application_1/feature/search/presentation/view_model/cubit/search_cubit.dart';
 import 'package:flutter_application_1/feature/search/presentation/view/widgets/search_result_item.dart';
@@ -18,7 +19,7 @@ class SearchScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -31,11 +31,6 @@ class ProductByCategoryScreen extends StatelessWidget {
             ),
             SizedBox(width: 70.w),
             Text(AppStrings.category, style: AppStyles.namehomeHeadLinesStyle),
-            const Spacer(),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage(AssetManager.homeimage),
-            ),
           ],
         ),
       ),
