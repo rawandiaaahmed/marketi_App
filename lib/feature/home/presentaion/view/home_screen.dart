@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/get_it/injection_sl.dart';
-import '../../../../core/Router/route.dart';
+
 import '../../../../core/Router/route_string.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -37,7 +37,6 @@ class HomeScreen extends StatelessWidget {
                 const HeaderHome(),
                 SizedBox(height: 16.h),
 
-                
                 GestureDetector(
                   onTap: () {
                     context.pushName(StringRoute.search);
@@ -84,18 +83,15 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 SizedBox(height: 16.h),
-           BannerHome(),
+                BannerHome(),
                 SizedBox(height: 20.h),
 
-                // Popular Products
                 const PopularProduct(),
                 SizedBox(height: 20.h),
 
-                // Categories
                 const CatrgoryHome(),
                 SizedBox(height: 20.h),
 
-                // Brands
                 const BrandsHome(),
               ],
             ),

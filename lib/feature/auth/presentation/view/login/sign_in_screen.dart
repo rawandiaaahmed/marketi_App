@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
-
 import 'package:flutter_application_1/feature/auth/presentation/view_model/auth_cubit.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view_model/state_cubit.dart';
 import 'package:flutter_application_1/feature/home/presentaion/view_model/cubit/home_cubit.dart';
@@ -11,7 +9,6 @@ import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/constants/validator.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_button.dart';
-import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_shere_widget.dart';
 import 'package:flutter_application_1/feature/auth/presentation/view/widgets/custom_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -133,7 +130,6 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               SizedBox(height: 20.h),
 
-        
               SizedBox(
                 width: double.infinity,
                 height: 50.h,
@@ -141,14 +137,22 @@ class _SignInScreenState extends State<SignInScreen> {
                   listener: (context, state) {
                     if (state is SignInSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.message)));
+                        SnackBar(
+                          content: Text(
+                            state.message,
+                            style: TextStyle(color: AppColors.darkblue100),
+                          ),
+                          backgroundColor: AppColors.white,
+                        ),
+                      );
 
                       context.read<HomeCubit>().getProduct();
 
                       context.pushReplacementNamed(StringRoute.bottomBar);
                     } else if (state is SignInFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.errMessage)));
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.errMessage)));
                     }
                   },
                   builder: (context, state) {
@@ -160,9 +164,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       formKey: _formKey,
                       onValid: () {
                         context.read<UserCubit>().signIn(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
                       },
                     );
                   },
@@ -170,10 +174,9 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
 
               SizedBox(height: 20.h),
-              CustomShereWidget(),
+
               SizedBox(height: 30.h),
 
-              // Register
               GestureDetector(
                 onTap: () {},
                 child: Row(

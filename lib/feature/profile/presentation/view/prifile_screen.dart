@@ -1,21 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/Router/route_string.dart';
 import 'package:flutter_application_1/core/extensions/extention_navigator.dart';
-import 'package:flutter_application_1/core/helper/cache_helper.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_application_1/core/constants/app_string.dart';
 import 'package:flutter_application_1/core/constants/asset_manager.dart';
 import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
-
+import 'package:flutter_application_1/feature/profile/presentation/view/widgets/profile_header.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view/widgets/profile_widge.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view_model/cubit/profile_cubit.dart';
 import 'package:flutter_application_1/feature/profile/presentation/view_model/cubit/them_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -102,51 +100,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: Column(
                     children: [
-                      Center(
-                        child: Stack(
-                          children: [
-                            CircleAvatar(
-                              radius: 50.r,
-                              backgroundImage: state.profile.image.isNotEmpty
-                                  ? NetworkImage(state.profile.image)
-                                  : const AssetImage(
-                                          "assets/images/placeholder.png",
-                                        )
-                                        as ImageProvider,
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: InkWell(
-                                onTap: () => _pickImage(context),
-                                child: CircleAvatar(
-                                  radius: 15.r,
-                                  backgroundColor: AppColors.lightBlue100,
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: 18.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        state.profile.name,
-                        style: AppStyles.onboarderHeadLinesStyle.copyWith(
-                          fontSize: 18.sp,
-                          color: isDarkMode ? Colors.white : Colors.black,
-                        ),
-                      ),
-                      Text(
-                        state.profile.email,
-                        style: AppStyles.details2Lines2Style.copyWith(
-                          fontSize: 14.sp,
-                          color: isDarkMode ? Colors.white70 : Colors.black54,
-                        ),
+                      ProfileHeader(
+                        profile: state.profile,
+                        isDarkMode: isDarkMode,
+                        onPickImage: () => _pickImage(context),
                       ),
                       SizedBox(height: 30.h),
                       ProfileOption(
@@ -207,8 +164,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: 'Log Out',
                         isDarkMode: isDarkMode,
                         onTap: () async {
-                          await CacheHelper().removeData(key: 'token');
-
                           context.pushName(StringRoute.signin);
                         },
                       ),

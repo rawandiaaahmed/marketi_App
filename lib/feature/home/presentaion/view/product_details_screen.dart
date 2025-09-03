@@ -127,7 +127,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             SizedBox(height: 12.h),
 
-            // الاسم
             Text(
               product.title,
               style: AppStyles.namehomeHeadLinesStyle.copyWith(fontSize: 18.sp),
@@ -180,8 +179,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                   onPressed: () {
-               context.read<CartCubit>().addToCart(product.id);
-
+                    context.read<CartCubit>().addToCart(product.id);
                   },
                   child: Row(
                     children: [

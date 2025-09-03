@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
-import 'package:flutter_application_1/feature/home/data/model/product_model.dart';
+
 import 'package:flutter_application_1/feature/search/data/model/search_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,8 +11,7 @@ import 'package:flutter_application_1/core/theme/app_colors.dart';
 import 'package:flutter_application_1/core/theme/app_style.dart';
 
 class SearchDetailsScreen extends StatefulWidget {
-  const SearchDetailsScreen({Key? key, required this.search})
-    : super(key: key);
+  const SearchDetailsScreen({Key? key, required this.search}) : super(key: key);
 
   final ProductSearch search;
 
@@ -49,11 +48,7 @@ class _SearchDetailsScreenState extends State<SearchDetailsScreen> {
         padding: EdgeInsets.all(16.w),
         child: Column(
           children: [
-            Center(
-              child: Image.network(
-              search.thumbnail.toString(),
-              ),
-            ),
+            Center(child: Image.network(search.thumbnail.toString())),
             SizedBox(height: 10.h),
 
             Row(
@@ -176,8 +171,7 @@ class _SearchDetailsScreenState extends State<SearchDetailsScreen> {
                     ),
                   ),
                   onPressed: () {
-               context.read<CartCubit>().addToCart(search.id);
-
+                    context.read<CartCubit>().addToCart(search.id);
                   },
                   child: Row(
                     children: [

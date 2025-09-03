@@ -136,7 +136,13 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       listener: (context, state) {
                         if (state is NewPasswordSuccess) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(state.message)),
+                            SnackBar(
+                              content: Text(
+                                state.message,
+                                style: TextStyle(color: AppColors.darkblue100),
+                              ),
+                              backgroundColor: AppColors.white,
+                            ),
                           );
                           context.pushName(StringRoute.congrate);
                         } else if (state is NewPasswordFailure) {
@@ -153,7 +159,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                         }
                         return ElevatedButton(
                           onPressed: () {
-                           context.read<UserCubit>().newPassword(
+                            context.read<UserCubit>().newPassword(
                               email: widget.email,
                               password: passwordController.text,
                               confirmPassword: confirmPasswordController.text,

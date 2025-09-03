@@ -22,7 +22,7 @@ class VerificationemailScreen extends StatefulWidget {
 class _VerificationemailScreenState extends State<VerificationemailScreen> {
   final TextEditingController pinController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  
+
   int seconds = 46;
 
   @override
@@ -75,10 +75,7 @@ class _VerificationemailScreenState extends State<VerificationemailScreen> {
               child: Column(
                 children: [
                   SizedBox(height: 30.h),
-                  Image.asset(
-                    AssetManager.verificationemail,
-                    height: 200.h,
-                  ),
+                  Image.asset(AssetManager.verificationemail, height: 200.h),
                   SizedBox(height: 20.h),
                   Padding(
                     padding: EdgeInsets.only(left: 64.h, right: 42.h),
@@ -98,16 +95,26 @@ class _VerificationemailScreenState extends State<VerificationemailScreen> {
                   ),
                   SizedBox(height: 20.h),
 
-                  
                   BlocConsumer<UserCubit, UserState>(
                     listener: (context, state) {
                       if (state is VerificationSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(state.message)));
-                        context.pushName(StringRoute.createnewPassword,arguments: widget.email);
+                          SnackBar(
+                            content: Text(
+                              state.message,
+                              style: TextStyle(color: AppColors.darkblue100),
+                            ),
+                            backgroundColor: AppColors.white,
+                          ),
+                        );
+                        context.pushName(
+                          StringRoute.createnewPassword,
+                          arguments: widget.email,
+                        );
                       } else if (state is VerificationFailure) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(state.errMessage)));
+                          SnackBar(content: Text(state.errMessage)),
+                        );
                       }
                     },
                     builder: (context, state) {
@@ -116,7 +123,10 @@ class _VerificationemailScreenState extends State<VerificationemailScreen> {
                       }
                       return ElevatedButton(
                         onPressed: () {
-                          context.read<UserCubit>().verification(email:widget.email , code: pinController.text);
+                          context.read<UserCubit>().verification(
+                            email: widget.email,
+                            code: pinController.text,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(double.infinity, 50.h),
