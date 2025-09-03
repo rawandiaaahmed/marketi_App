@@ -29,6 +29,7 @@ class ProductCardHome extends StatefulWidget {
 class _ProductCardHomeState extends State<ProductCardHome> {
   bool _isPressedAdd = false;
   bool _isPressedFav = false;
+  bool _isAddedToCart = false;
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +118,9 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                           widget.isFavorite
                               ? Icons.favorite
                               : Icons.favorite_border,
+
                           color: widget.isFavorite
-                              ? Colors.red
+                              ? Colors.black
                               : AppColors.darkblue900,
                           size: 20.sp,
                         ),
@@ -162,11 +164,15 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                 ],
               ),
             ),
+
             GestureDetector(
               onTapDown: (_) => setState(() => _isPressedAdd = true),
               onTapUp: (_) => setState(() => _isPressedAdd = false),
               onTapCancel: () => setState(() => _isPressedAdd = false),
-              onTap: widget.onAddToCart,
+              onTap: () {
+                widget.onAddToCart();
+                setState(() => _isAddedToCart = true);
+              },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
                 margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 8.h),
@@ -180,7 +186,25 @@ class _ProductCardHomeState extends State<ProductCardHome> {
                   border: Border.all(color: AppColors.lightBlue100),
                 ),
                 child: Center(
-                  child: Text("Add", style: AppStyles.producLines2Style),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        _isAddedToCart
+                            ? Icons.check_circle
+                            : Icons.add_shopping_cart,
+                        color: _isAddedToCart
+                            ? Colors.green
+                            : AppColors.darkblue900,
+                        size: 16.sp,
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        _isAddedToCart ? "Added" : "Add",
+                        style: AppStyles.producLines2Style,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

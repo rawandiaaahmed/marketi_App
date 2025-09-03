@@ -136,9 +136,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 child: BlocConsumer<UserCubit, UserState>(
                   listener: (context, state) {
                     if (state is SignInSuccess) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(state.message)));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.message,
+                            style: TextStyle(color: AppColors.darkblue100),
+                          ),
+                          backgroundColor: AppColors.white,
+                        ),
+                      );
 
                       context.read<HomeCubit>().getProduct();
 

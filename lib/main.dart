@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                   brightness: Brightness.light,
                   scaffoldBackgroundColor: AppColors.white,
+
                   fontFamily: 'Poppins',
                 ),
                 darkTheme: ThemeData(

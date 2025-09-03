@@ -19,15 +19,9 @@ class AuthRepository {
   final ApiConsumer api;
 
   AuthRepository({required this.api});
-  Future<Either<String, LoginModel>> signIn(
-    LoginRequestModel requst
-   
-  ) async {
+  Future<Either<String, LoginModel>> signIn(LoginRequestModel requst) async {
     try {
-      final response = await api.post(
-        EndPoint.signIn,
-        data: requst.toJson(),
-      );
+      final response = await api.post(EndPoint.signIn, data: requst.toJson());
       final user = LoginModel.fromJson(response);
       final decodedToken = JwtDecoder.decode(user.token);
       CacheHelper().saveData(key: ApiKey.token, value: user.token);
@@ -38,15 +32,9 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, SignUpModel>> signUp(
-    SignUpRequestModel request,
-  ) async {
+  Future<Either<String, SignUpModel>> signUp(SignUpRequestModel request) async {
     try {
-      final response = await api.post(
-        EndPoint.signUp,
-
-        data: request.toJson(),
-      );
+      final response = await api.post(EndPoint.signUp, data: request.toJson());
       final signUPModel = SignUpModel.fromJson(response);
       return Right(signUPModel);
     } on ServerException catch (e) {
@@ -55,7 +43,7 @@ class AuthRepository {
   }
 
   Future<Either<String, ResentModel>> resentEmail(
-    ResentReqestModel request
+    ResentReqestModel request,
   ) async {
     try {
       final response = await api.post(
@@ -64,12 +52,16 @@ class AuthRepository {
         data: request.toJson(),
       );
       final resentModel = ResentModel.fromJson(response);
+
       return Right(resentModel);
     } on ServerException catch (e) {
       return Left(e.errModel.message);
     }
   }
-   Future<Either<String, ActiveResentModel>> verification(ActiveResentRequestModel request) async {
+
+  Future<Either<String, ActiveResentModel>> verification(
+    ActiveResentRequestModel request,
+  ) async {
     try {
       final response = await api.post(
         EndPoint.verfication,
@@ -82,7 +74,10 @@ class AuthRepository {
       return Left(e.errModel.message);
     }
   }
-  Future<Either<String,NewPasswordModel>> newpassword(NewPasswordRequestModel request) async {
+
+  Future<Either<String, NewPasswordModel>> newpassword(
+    NewPasswordRequestModel request,
+  ) async {
     try {
       final response = await api.post(
         EndPoint.newpassword,
@@ -95,5 +90,4 @@ class AuthRepository {
       return Left(e.errModel.message);
     }
   }
-
 }

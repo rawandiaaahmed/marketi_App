@@ -19,6 +19,8 @@ class ProductCartScreen extends StatefulWidget {
 }
 
 class _ProductCartScreenState extends State<ProductCartScreen> {
+  bool cartDialogOpen = false;
+
   @override
   void initState() {
     super.initState();
@@ -46,33 +48,55 @@ class _ProductCartScreenState extends State<ProductCartScreen> {
       ),
       body: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
-          if (state is CartFailure ||
+          if (state is AddCartLoading || state is DeleteCartLoading) {
+            if (!cartDialogOpen) {
+              cartDialogOpen = true;
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) =>
+                    const Center(child: CircularProgressIndicator()),
+              );
+            }
+          } else if (state is AddCartSuccess || state is DeleteCartSuccess) {
+            if (cartDialogOpen && Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+              cartDialogOpen = false;
+            }
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state is AddCartSuccess
+                        ? state.message
+                        : (state as DeleteCartSuccess).message,
+                  ),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            context.read<CartCubit>().getUsercart();
+          } else if (state is CartFailure ||
               state is AddCartFailure ||
               state is DeleteCartFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state is CartFailure
-                      ? state.errMessage
-                      : state is AddCartFailure
-                      ? state.errMessage
-                      : (state as DeleteCartFailure).errMessage,
+            if (cartDialogOpen && Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+              cartDialogOpen = false;
+            }
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state is CartFailure
+                        ? state.errMessage
+                        : state is AddCartFailure
+                        ? state.errMessage
+                        : (state as DeleteCartFailure).errMessage,
+                  ),
+                  backgroundColor: Colors.red,
                 ),
-                backgroundColor: Colors.red,
-              ),
-            );
-          } else if (state is AddCartSuccess || state is DeleteCartSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state is AddCartSuccess
-                      ? state.message
-                      : (state as DeleteCartSuccess).message,
-                ),
-                backgroundColor: Colors.green,
-              ),
-            );
-            context.read<CartCubit>().getUsercart();
+              );
           }
         },
         builder: (context, state) {

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/feature/cart/data/model/cart_items_model.dart';
-import 'package:flutter_application_1/feature/cart/presentation/view_model/cubit/cart_cubit.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -165,31 +162,6 @@ class _cartDetailsScreenState extends State<cartDetailsScreen> {
                   "Price\n\$${cart.price.toString()}",
                   style: AppStyles.namehomeHeadLinesStyle.copyWith(
                     fontSize: 18.sp,
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.white,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 50.w,
-                      vertical: 14.h,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                  ),
-                  onPressed: () {
-                    context.read<CartCubit>().addToCart(cart.id);
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        AssetManager.cart,
-                        color: AppColors.lightBlue100,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text("Add to Cart", style: AppStyles.producLines2Style),
-                    ],
                   ),
                 ),
               ],

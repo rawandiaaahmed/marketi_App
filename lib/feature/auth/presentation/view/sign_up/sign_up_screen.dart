@@ -153,9 +153,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: BlocConsumer<UserCubit, UserState>(
                 listener: (context, state) {
                   if (state is SignUpSuccess) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          state.message,
+                          style: TextStyle(color: AppColors.darkblue100),
+                        ),
+                        backgroundColor: AppColors.white,
+                      ),
+                    );
                     context.read<HomeCubit>().getProduct();
                     context.pushName(StringRoute.bottomBar);
                   } else if (state is SignUpFailure) {
